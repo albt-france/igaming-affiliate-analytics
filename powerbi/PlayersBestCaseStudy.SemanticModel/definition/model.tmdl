@@ -33,3 +33,5 @@ ref table 'Page Type'
 ref table Vertical
 ref table Date
 ref table _Measures
+
+ref cultureInfo en-US

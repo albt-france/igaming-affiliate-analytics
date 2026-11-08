@@ -237,6 +237,19 @@
             }
           }
         }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "lineChartType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'straight'"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {

@@ -127,6 +127,19 @@
             "metadata": "_Measures.AB Cum Conversion New Page"
           }
         }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "lineChartType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'straight'"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {

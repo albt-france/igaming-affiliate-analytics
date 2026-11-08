@@ -149,6 +149,17 @@
       "lineStyles": [
         {
           "properties": {
+            "lineChartType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'straight'"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
             "showMarker": {
               "expr": {
                 "Literal": {

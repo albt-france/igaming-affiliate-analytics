@@ -1,0 +1,321 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1484.1000291516882,
+            "y": 645.55815462553335
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "1ecc7392-50e7-52e0-981e-eab5bf2c254e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1768.1000291516882,
+            "y": 695.55815462553335
+          },
+          "nodeIndex": "AB Daily",
+          "nodeLineageTag": "d8b5c3f9-53c7-5887-b501-af4aed544595",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2052.1000291516884,
+            "y": 719.55815462553335
+          },
+          "nodeIndex": "AB Stats",
+          "nodeLineageTag": "95c5ad44-64b1-5dbf-a041-d19ac533481f",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2336.1000291516884,
+            "y": 645.55815462553335
+          },
+          "nodeIndex": "AB Summary",
+          "nodeLineageTag": "3adb58fd-82c6-5c9d-9cd0-0b465f36e0fc",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2620.1000291516884,
+            "y": 659.55815462553335
+          },
+          "nodeIndex": "Anomaly Flags",
+          "nodeLineageTag": "e43d12c4-e07b-5baa-a8da-33dce8fe73be",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2904.1000291516884,
+            "y": 671.55815462553335
+          },
+          "nodeIndex": "Anomaly Score",
+          "nodeLineageTag": "f3bf0431-d92f-5da0-9867-95ab42bec996",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3188.1000291516884,
+            "y": 671.55815462553335
+          },
+          "nodeIndex": "Backtest",
+          "nodeLineageTag": "2b5e07cf-7a41-52a6-811f-f67c0dc86333",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 364.09970291878307,
+            "y": -50
+          },
+          "nodeIndex": "Channel",
+          "nodeLineageTag": "31582652-e1fa-5d20-bce1-75f035b6d3c7",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 964.04973801305061,
+            "y": 1106.7338694341242
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "0b20f3bc-fd04-5309-a94a-245ab1c54014",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 78.003687263419181,
+            "y": 93.24260988860874
+          },
+          "nodeIndex": "Deal Curves",
+          "nodeLineageTag": "d3247cec-ff51-5719-95ee-b0615a4383b9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 768.74510923685625
+          },
+          "nodeIndex": "Deal Summary",
+          "nodeLineageTag": "ca20795c-c22d-5107-b920-b6c57b6255d9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1250.1000291516882,
+            "y": 908.53002645711922
+          },
+          "nodeIndex": "Forecast",
+          "nodeLineageTag": "d1b8e5d0-c658-570f-adc2-15d937c299aa",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1018.689029419465,
+            "y": 381.628226735681
+          },
+          "nodeIndex": "Marketing Cost",
+          "nodeLineageTag": "be02f8de-65e1-5082-ab00-b78ed69d12b6",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 334.50453074698362,
+            "y": 970.01789990503949
+          },
+          "nodeIndex": "NDCs",
+          "nodeLineageTag": "5afb45b2-13f8-59b5-a0d8-a1a24e6295b7",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 621.10574194030232,
+            "y": 762.32296787560676
+          },
+          "nodeIndex": "Operator",
+          "nodeLineageTag": "0138bf54-3d7f-5b21-b086-acd5896bb393",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 81.683656757570645,
+            "y": 443.8562159488439
+          },
+          "nodeIndex": "Operator Daily",
+          "nodeLineageTag": "95a0c346-ce9e-52f5-bab7-7605bf116400",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 679.25522521353719,
+            "y": 1209.2114259755431
+          },
+          "nodeIndex": "Page Type",
+          "nodeLineageTag": "bd3e03ca-23c2-5b8d-b25f-eeffab15ce96",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3472.1000291516884,
+            "y": 671.55815462553335
+          },
+          "nodeIndex": "Public Figures",
+          "nodeLineageTag": "ef600119-1ed5-5716-ab95-ecc1dd200158",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3756.1000291516884,
+            "y": 695.55815462553335
+          },
+          "nodeIndex": "Public KPIs",
+          "nodeLineageTag": "9fde75cb-d280-52af-bbf4-189ffa7a4638",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4040.1000291516884,
+            "y": 695.55815462553335
+          },
+          "nodeIndex": "Season Totals",
+          "nodeLineageTag": "3405b845-dabe-5e46-a205-32b77b226490",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 731.68416647445054,
+            "y": 607.935700677335
+          },
+          "nodeIndex": "State",
+          "nodeLineageTag": "3c0e415e-fbfb-5e74-b611-076deb90c739",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 393.20853591970956,
+            "y": 1293.1163092510667
+          },
+          "nodeIndex": "Traffic",
+          "nodeLineageTag": "f0209156-248a-560c-8a4d-5b9a5b20f994",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 907.92213895424584,
+            "y": 951.77586520861587
+          },
+          "nodeIndex": "Vertical",
+          "nodeLineageTag": "ac548767-1126-5a40-bc6a-b4b852fb8349",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Toutes les tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Toutes les tables",
+  "defaultDiagram": "Toutes les tables"
+}

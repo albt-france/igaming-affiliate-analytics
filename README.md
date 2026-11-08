@@ -15,7 +15,15 @@ Independent analysis built for a *BI Data Analyst* application.
 
 ## The report
 Seven pages, one question each, conclusion in the title: overview, the affiliate market, channels & pages, CPA vs revenue share, landing-page A/B test, 2026-27 forecast, data quality & anomalies.
-Open `powerbi/PlayersBestCaseStudy.pbip` in Power BI Desktop to explore it.
+Full report: [docs/PlayersBestCaseStudy.pdf](docs/PlayersBestCaseStudy.pdf). To explore it, open `powerbi/PlayersBestCaseStudy.pbix` (data included) in Power BI Desktop; `PlayersBestCaseStudy.pbip` is the same report as readable source files.
+
+![Overview](docs/00_overview.png)
+
+| | |
+|---|---|
+| ![Affiliate market](docs/01_affiliate_market.png) | ![Channels & pages](docs/02_channels_pages.png) |
+| ![CPA vs revenue share](docs/03_cpa_vs_revshare.png) | ![A/B test](docs/04_ab_test.png) |
+| ![Forecast](docs/05_forecast.png) | ![Anomalies](docs/06_anomalies.png) |
 
 ## How it is built
 ```
@@ -26,7 +34,8 @@ data/output      SQL and notebook outputs read by Power BI
 sql/             DuckDB: EPC by channel/page, deal breakeven curves, daily KPIs, A/B cleaning, NDC valuation
 notebooks/       analysis.py / analysis.ipynb: one section per question
 src/             simulate.py, run_sql.py, build_notebook.py, build_semantic_model.py, build_report_pages.py
-powerbi/         Power BI project (.pbip: TMDL semantic model + PBIR report), theme
+powerbi/         Power BI project (.pbip: TMDL semantic model + PBIR report), .pbix, theme
+docs/            report PDF and page screenshots
 ```
 - **SQL** is censoring-safe: a cohort only counts for month *n* once every player in it could have reached month *n*; channel and page value use cohorts whose first 12 months are fully observed.
 - **Python**: two-proportion z-test, bootstrap, power analysis and an A/A peeking simulation; quasi-Poisson calendar regression with a full-season back-test; NDCs forecast as sessions x conversion; robust (median/MAD) anomaly rules scored against the injected answer key.
@@ -43,7 +52,7 @@ python -m venv .venv && .venv/Scripts/pip install -r requirements.txt
 .venv/Scripts/python src/build_semantic_model.py
 .venv/Scripts/python src/build_report_pages.py
 ```
-Power BI: open `powerbi/PlayersBestCaseStudy.pbip`, set the `DataFolder` parameter to your `data\` folder if needed, and refresh.
+Power BI: open `powerbi/PlayersBestCaseStudy.pbip`, set the `DataFolder` parameter to your `data\` folder if needed, and refresh (or simply open the `.pbix`).
 
 ## Limits
 - Simulated data demonstrate methods, not PLAYERSBEST's real performance; they follow the model's structure closely, so real forecast errors would be larger.

@@ -3,9 +3,9 @@
   "name": "seasonTable",
   "position": {
     "x": 972,
-    "y": 824,
+    "y": 831,
     "z": 9000,
-    "height": 204,
+    "height": 197,
     "width": 916,
     "tabOrder": 9000
   },
@@ -102,7 +102,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "11D"
+                  "Value": "10D"
                 }
               }
             }
@@ -115,7 +115,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "11D"
+                  "Value": "10D"
                 }
               }
             },

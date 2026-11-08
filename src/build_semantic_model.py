@@ -306,6 +306,8 @@ write(DEF / "model.tmdl", "\n".join([
     "annotation PBI_QueryOrder = " + json.dumps(order + ["DataFolder"]),
     "",
     *[f"ref table {q(t)}" for t in order],
+    # Power BI Desktop adds a culture file on first open; keep referencing it once it exists
+    *(["", "ref cultureInfo en-US"] if (DEF / "cultures" / "en-US.tmdl").exists() else []),
     ""]))
 write(SM / "definition.pbism", json.dumps({"version": "4.2", "settings": {}}, indent=2))
 write(SM / ".platform", json.dumps({

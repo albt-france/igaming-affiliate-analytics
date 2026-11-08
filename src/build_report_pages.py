@@ -123,6 +123,9 @@ class Page:
         if sort:
             field, direction = sort
             visual["query"]["sortDefinition"] = {"sort": [{"field": field, "direction": direction}], "isDefaultSort": False}
+        if vtype == "lineChart":    # straight segments: smoothed curves overshoot the real values
+            objects = dict(objects or {})
+            objects["lineStyles"] = [{"properties": {"lineChartType": lit("straight")}}] + list(objects.get("lineStyles", []))
         if objects:
             visual["objects"] = objects
         visual["visualContainerObjects"] = {
@@ -448,7 +451,7 @@ p.header("NFL 2026-27: about +2% NDCs, because the search update cancels a year 
 p.slicer("slicer_FcVertical", sx1, TOP, sw1, 64, C("Vertical", "vertical"), "Vertical", single=True, default="Sportsbook")
 p.slicer("slicer_FcMetric", sx2, TOP, sw2, 64, C("Forecast", "metric"), "Metric", single=True, default="Sessions")
 y = TOP + 64 + GAP
-h = 320
+h = 270
 act, fc, lo, hi = Ms("Actual", "Forecast 2026-27", "Forecast Low 80", "Forecast High 80")
 p.chart("forecastChart", "lineChart", L, y, W, h,
         {"Category": [C("Date", "Week")], "Y": [act, fc, lo, hi]},
@@ -466,17 +469,18 @@ p.chart("backtestChart", "lineChart", xa, y, wa, BOT - y,
         "Back-test: 2025-26 season forecast from 2024-25 only (existing states), weekly",
         {**LEGEND_TOP, "dataPoint": [series_color(ba, INK), series_color(bf, BLUE)]},
         labels={qref(ba): "Actual", qref(bf): "Forecast", "Date.Week": "Week"})
-bh = (BOT - y - GAP) / 2
+bh = (BOT - y - GAP) * 0.57              # back-test table has 6 rows, season table 4
+bh2 = BOT - y - GAP - bh
 BT, ST = "Backtest", "Season Totals"
 p.chart("backtestTable", "tableEx", xb, y, wb, bh,
         {"Values": [C(BT, c) for c in ["vertical", "metric", "method", "mape_weekly", "season_error", "coverage_80"]]},
-        "Back-test accuracy (NDCs = sessions x conversion beats a direct NDC model)", table_style(font=11),
+        "Back-test accuracy (NDCs = sessions x conversion beats a direct NDC model)", table_style(font=10),
         labels={f"{BT}.vertical": "Vertical", f"{BT}.metric": "Metric", f"{BT}.method": "Method",
                 f"{BT}.mape_weekly": "Weekly error (MAPE)", f"{BT}.season_error": "Season total error",
                 f"{BT}.coverage_80": "In 80% interval"})
-p.chart("seasonTable", "tableEx", xb, y + bh + GAP, wb, bh,
+p.chart("seasonTable", "tableEx", xb, y + bh + GAP, wb, bh2,
         {"Values": [C(ST, c) for c in ["vertical", "metric", "actual_2025_26", "forecast_2026_27", "growth"]]},
-        "Season totals, September to February", table_style(font=11),
+        "Season totals, September to February", table_style(font=10),
         labels={f"{ST}.vertical": "Vertical", f"{ST}.metric": "Metric", f"{ST}.actual_2025_26": "2025-26 actual",
                 f"{ST}.forecast_2026_27": "2026-27 forecast", f"{ST}.growth": "Growth"})
 for s in ("slicer_FcVertical", "slicer_FcMetric"):

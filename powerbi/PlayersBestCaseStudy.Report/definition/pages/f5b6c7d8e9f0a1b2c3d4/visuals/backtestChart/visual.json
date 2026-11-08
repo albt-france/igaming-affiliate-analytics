@@ -3,9 +3,9 @@
   "name": "backtestChart",
   "position": {
     "x": 32,
-    "y": 596,
+    "y": 546,
     "z": 7000,
-    "height": 432,
+    "height": 482,
     "width": 916,
     "tabOrder": 7000
   },
@@ -125,6 +125,19 @@
           },
           "selector": {
             "metadata": "_Measures.Back-test Forecast"
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "lineChartType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'straight'"
+                }
+              }
+            }
           }
         }
       ]

@@ -157,6 +157,19 @@
             "id": "1"
           }
         }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "lineChartType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'straight'"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {

@@ -5,7 +5,7 @@
     "x": 32,
     "y": 252,
     "z": 6000,
-    "height": 320,
+    "height": 270,
     "width": 1856,
     "tabOrder": 6000
   },
@@ -195,6 +195,17 @@
         }
       ],
       "lineStyles": [
+        {
+          "properties": {
+            "lineChartType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'straight'"
+                }
+              }
+            }
+          }
+        },
         {
           "properties": {
             "lineStyle": {

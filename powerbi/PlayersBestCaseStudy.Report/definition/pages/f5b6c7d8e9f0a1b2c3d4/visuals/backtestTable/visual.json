@@ -3,9 +3,9 @@
   "name": "backtestTable",
   "position": {
     "x": 972,
-    "y": 596,
+    "y": 546,
     "z": 8000,
-    "height": 204,
+    "height": 261,
     "width": 916,
     "tabOrder": 8000
   },
@@ -117,7 +117,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "11D"
+                  "Value": "10D"
                 }
               }
             }
@@ -130,7 +130,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "11D"
+                  "Value": "10D"
                 }
               }
             },
