@@ -1,0 +1,66 @@
+table NDCs
+	lineageTag: 5afb45b2-13f8-59b5-a0d8-a1a24e6295b7
+
+	column ndc_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 668784fa-d00f-5469-997c-ecc9d93bad2b
+		summarizeBy: none
+		sourceColumn: ndc_id
+
+	column ftd_date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: a04e4933-5a58-59d6-9755-211288d7d685
+		summarizeBy: none
+		sourceColumn: ftd_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column channel
+		dataType: string
+		lineageTag: dbdbdfad-a35b-53f3-b867-739a0422b5eb
+		summarizeBy: none
+		sourceColumn: channel
+
+	column state
+		dataType: string
+		lineageTag: 0bc434d9-27a6-54c1-8018-e1577bf180fb
+		summarizeBy: none
+		sourceColumn: state
+
+	column page_type
+		dataType: string
+		lineageTag: 2b4e4178-dd5f-5243-8f29-a34988e2beb3
+		summarizeBy: none
+		sourceColumn: page_type
+
+	column vertical
+		dataType: string
+		lineageTag: f02f2854-1faa-5e84-8d8d-65225f8606ea
+		summarizeBy: none
+		sourceColumn: vertical
+
+	column operator
+		dataType: string
+		lineageTag: 454b45d0-3cda-5cf9-867d-fb873de65ac6
+		summarizeBy: none
+		sourceColumn: operator
+
+	column revenue_12m_usd
+		dataType: double
+		formatString: $#,0.00
+		lineageTag: ce30df45-a95a-59c1-bea5-ddf3bb60c8f6
+		summarizeBy: none
+		sourceColumn: revenue_12m_usd
+
+	partition NDCs = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\05_ndcs_valued.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"ndc_id", Int64.Type}, {"ftd_date", type date}, {"channel", type text}, {"state", type text}, {"page_type", type text}, {"vertical", type text}, {"operator", type text}, {"revenue_12m_usd", type number}}, "en-US")
+				in
+					Typed

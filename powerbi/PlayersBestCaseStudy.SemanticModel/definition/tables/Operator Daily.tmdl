@@ -1,0 +1,67 @@
+table 'Operator Daily'
+	lineageTag: 95a0c346-ce9e-52f5-bab7-7605bf116400
+
+	column date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 361ef891-c2e7-5a64-9052-edaf55a222c0
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column channel
+		dataType: string
+		lineageTag: 19a8dbdc-599e-5fdb-9239-cfea68790265
+		summarizeBy: none
+		sourceColumn: channel
+
+	column state
+		dataType: string
+		lineageTag: 2333a922-8bf2-5005-8dc0-b6e18e0f4f07
+		summarizeBy: none
+		sourceColumn: state
+
+	column vertical
+		dataType: string
+		lineageTag: f8330924-88df-5bba-8fe4-74cace20e1ef
+		summarizeBy: none
+		sourceColumn: vertical
+
+	column operator
+		dataType: string
+		lineageTag: 916d082e-a98f-5d83-aac4-93da59a930a4
+		summarizeBy: none
+		sourceColumn: operator
+
+	column clickouts
+		dataType: int64
+		formatString: #,0
+		lineageTag: bd4d5318-2519-509f-8b0d-8604920537be
+		summarizeBy: none
+		sourceColumn: clickouts
+
+	column registrations
+		dataType: int64
+		formatString: #,0
+		lineageTag: 029b034e-5241-5e67-a1a8-f296abf92cf4
+		summarizeBy: none
+		sourceColumn: registrations
+
+	column ndcs_tracked
+		dataType: int64
+		formatString: #,0
+		lineageTag: c3d17a37-3a93-5f57-baa1-94bd0c6d7844
+		summarizeBy: none
+		sourceColumn: ndcs_tracked
+
+	partition 'Operator Daily' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "simulated\sim_operator_daily.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"date", type date}, {"channel", type text}, {"state", type text}, {"vertical", type text}, {"operator", type text}, {"clickouts", Int64.Type}, {"registrations", Int64.Type}, {"ndcs_tracked", Int64.Type}}, "en-US")
+				in
+					Typed

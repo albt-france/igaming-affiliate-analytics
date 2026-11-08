@@ -1,0 +1,8 @@
+operator,vertical,current_deal,cpa_offer_usd,revshare_offer_pct,ndcs,breakeven_month,breakeven_month_discounted,breakeven_p5,breakeven_p95,share_of_boot_never,revshare_24m_usd,revshare_24m_disc_usd,ndcs_observed_m24,better_deal
+Operator A,Sportsbook,CPA,300,0.3,42250,,,,,1.0,254.0,243.0,1983,CPA
+Operator B,Sportsbook,Revenue share,275,0.3,27706,,,21.0,,0.6466666666666666,273.0,261.0,1329,CPA
+Operator C,Sportsbook,Hybrid,250,0.25,20905,,,,,1.0,189.0,180.0,996,CPA
+Operator D,Sportsbook,CPA,250,0.25,19955,,,,,1.0,164.0,157.0,972,CPA
+Operator E,Casino,CPA,400,0.35,4732,8.0,9.0,8.0,9.0,0.0,684.0,644.0,195,Revenue share
+Operator F,Casino,Revenue share,375,0.35,3127,6.0,6.0,6.0,7.0,0.0,782.0,740.0,114,Revenue share
+Operator G,Casino,Hybrid,350,0.3,1762,13.0,14.0,10.0,17.0,0.0033333333333333335,421.0,401.0,68,Revenue share

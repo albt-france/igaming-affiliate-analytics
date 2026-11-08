@@ -1,0 +1,60 @@
+table Traffic
+	lineageTag: f0209156-248a-560c-8a4d-5b9a5b20f994
+
+	column date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 565d3391-b7cb-5a56-b65b-0cbda6aa3365
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column channel
+		dataType: string
+		lineageTag: 98750cc8-2c5f-52cf-8207-02b552f4f772
+		summarizeBy: none
+		sourceColumn: channel
+
+	column state
+		dataType: string
+		lineageTag: 03fa0ce6-7ac1-5dab-bf49-67f64d81a378
+		summarizeBy: none
+		sourceColumn: state
+
+	column page_type
+		dataType: string
+		lineageTag: 0b85d078-a258-56b7-b214-ce69c6ce7dbd
+		summarizeBy: none
+		sourceColumn: page_type
+
+	column vertical
+		dataType: string
+		lineageTag: 988faf26-54a5-5528-854b-859d8f7b7374
+		summarizeBy: none
+		sourceColumn: vertical
+
+	column sessions
+		dataType: int64
+		formatString: #,0
+		lineageTag: c84f9bea-9575-5697-a9f3-d69fe3d7e9d7
+		summarizeBy: none
+		sourceColumn: sessions
+
+	column clickouts
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5f8b20ed-39d5-5c19-9057-bc44655df531
+		summarizeBy: none
+		sourceColumn: clickouts
+
+	partition Traffic = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "simulated\sim_traffic_daily.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"date", type date}, {"channel", type text}, {"state", type text}, {"page_type", type text}, {"vertical", type text}, {"sessions", Int64.Type}, {"clickouts", Int64.Type}}, "en-US")
+				in
+					Typed

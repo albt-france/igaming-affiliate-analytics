@@ -1,0 +1,12 @@
+table 'Page Type'
+	lineageTag: bd3e03ca-23c2-5b8d-b25f-eeffab15ce96
+
+	column page_type
+		dataType: string
+		lineageTag: 98482b59-5836-52eb-8ba9-69605c8cfa4e
+		summarizeBy: none
+		sourceColumn: page_type
+
+	partition 'Page Type' = m
+		mode: import
+		source = #table(type table [page_type = text], {{"Bonus code page"}, {"Comparison ranking"}, {"Operator review"}, {"News & guides"}})

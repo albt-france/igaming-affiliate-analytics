@@ -1,0 +1,58 @@
+table Date
+	lineageTag: 0b20f3bc-fd04-5309-a94a-245ab1c54014
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: dd mmm yyyy
+		lineageTag: d09faaba-5712-5590-a97b-de583d59623a
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Week
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 627efebb-daf5-522f-a2e8-457fa7d2e091
+		summarizeBy: none
+		sourceColumn: Week
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Month
+		dataType: string
+		lineageTag: 929401df-96a6-5960-84e7-4704f2b3a10b
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: MonthStart
+
+	column MonthStart
+		dataType: dateTime
+		isHidden
+		formatString: mmm yyyy
+		lineageTag: 259bbe16-17c8-5f51-8abe-3d442a2c0b8d
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'NFL Season'
+		dataType: string
+		lineageTag: 4a742955-466a-5988-8e85-5fd718f009f1
+		summarizeBy: none
+		sourceColumn: NFL Season
+
+	partition Date = m
+		mode: import
+		source =
+				let
+					Dates = List.Dates(#date(2024, 9, 1), Duration.Days(#date(2027, 2, 28) - #date(2024, 9, 1)) + 1, #duration(1, 0, 0, 0)),
+					T = Table.FromList(Dates, Splitter.SplitByNothing(), type table [Date = date]),
+					Wk = Table.AddColumn(T, "Week", each Date.StartOfWeek([Date], Day.Monday), type date),
+					Mo = Table.AddColumn(Wk, "Month", each Date.ToText([Date], "MMM yyyy", "en-US"), type text),
+					Ms = Table.AddColumn(Mo, "MonthStart", each Date.StartOfMonth([Date]), type date),
+					Season = Table.AddColumn(Ms, "NFL Season", each if Date.Month([Date]) >= 9 then Text.From(Date.Year([Date])) & "-" & Text.End(Text.From(Date.Year([Date]) + 1), 2) else if Date.Month([Date]) <= 2 then Text.From(Date.Year([Date]) - 1) & "-" & Text.End(Text.From(Date.Year([Date])), 2) else "Off-season " & Text.From(Date.Year([Date])), type text)
+				in
+					Season

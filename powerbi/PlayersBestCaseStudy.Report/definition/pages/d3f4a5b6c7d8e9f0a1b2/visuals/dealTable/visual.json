@@ -1,0 +1,291 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "dealTable",
+  "position": {
+    "x": 32,
+    "y": 658,
+    "z": 7000,
+    "height": 370,
+    "width": 1856,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "operator"
+                }
+              },
+              "queryRef": "Deal Summary.operator",
+              "nativeQueryRef": "operator",
+              "displayName": "Operator"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "vertical"
+                }
+              },
+              "queryRef": "Deal Summary.vertical",
+              "nativeQueryRef": "vertical",
+              "displayName": "Vertical"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "current_deal"
+                }
+              },
+              "queryRef": "Deal Summary.current_deal",
+              "nativeQueryRef": "current_deal",
+              "displayName": "Current deal"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "cpa_offer_usd"
+                }
+              },
+              "queryRef": "Deal Summary.cpa_offer_usd",
+              "nativeQueryRef": "cpa_offer_usd",
+              "displayName": "CPA offer"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "revshare_offer_pct"
+                }
+              },
+              "queryRef": "Deal Summary.revshare_offer_pct",
+              "nativeQueryRef": "revshare_offer_pct",
+              "displayName": "Rev. share offer"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "breakeven_month"
+                }
+              },
+              "queryRef": "Deal Summary.breakeven_month",
+              "nativeQueryRef": "breakeven_month",
+              "displayName": "Breakeven month"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "breakeven_month_discounted"
+                }
+              },
+              "queryRef": "Deal Summary.breakeven_month_discounted",
+              "nativeQueryRef": "breakeven_month_discounted",
+              "displayName": "Breakeven (discounted)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "breakeven_p5"
+                }
+              },
+              "queryRef": "Deal Summary.breakeven_p5",
+              "nativeQueryRef": "breakeven_p5",
+              "displayName": "Breakeven P5"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "breakeven_p95"
+                }
+              },
+              "queryRef": "Deal Summary.breakeven_p95",
+              "nativeQueryRef": "breakeven_p95",
+              "displayName": "Breakeven P95"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "revshare_24m_disc_usd"
+                }
+              },
+              "queryRef": "Deal Summary.revshare_24m_disc_usd",
+              "nativeQueryRef": "revshare_24m_disc_usd",
+              "displayName": "Rev. share 24m (disc.)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "ndcs_observed_m24"
+                }
+              },
+              "queryRef": "Deal Summary.ndcs_observed_m24",
+              "nativeQueryRef": "ndcs_observed_m24",
+              "displayName": "NDCs at month 24"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Deal Summary"
+                    }
+                  },
+                  "Property": "better_deal"
+                }
+              },
+              "queryRef": "Deal Summary.better_deal",
+              "nativeQueryRef": "better_deal",
+              "displayName": "Better deal"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#52514E'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Deal scorecard (empty breakeven = revenue share never reaches the CPA within 24 months; 90% bootstrap interval)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

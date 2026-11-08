@@ -1,0 +1,114 @@
+table 'Deal Summary'
+	lineageTag: ca20795c-c22d-5107-b920-b6c57b6255d9
+
+	column operator
+		dataType: string
+		lineageTag: 7cbfd1a2-2592-5c4e-bc61-563bdf5071ba
+		summarizeBy: none
+		sourceColumn: operator
+
+	column vertical
+		dataType: string
+		lineageTag: 8192c80e-d0b8-5e81-95a7-ebbcc015592c
+		summarizeBy: none
+		sourceColumn: vertical
+
+	column current_deal
+		dataType: string
+		lineageTag: 48e69db1-b4eb-59ce-9550-0263d75d6108
+		summarizeBy: none
+		sourceColumn: current_deal
+
+	column cpa_offer_usd
+		dataType: double
+		formatString: $#,0
+		lineageTag: 90a29f26-f8a2-509a-95e1-f7326c130f31
+		summarizeBy: none
+		sourceColumn: cpa_offer_usd
+
+	column revshare_offer_pct
+		dataType: double
+		formatString: 0%
+		lineageTag: 4f74bee1-c6a1-5591-a2b4-39110a40d3be
+		summarizeBy: none
+		sourceColumn: revshare_offer_pct
+
+	column ndcs
+		dataType: int64
+		formatString: #,0
+		lineageTag: 11103d71-5e27-5d08-b51b-62feae8d2c2b
+		summarizeBy: none
+		sourceColumn: ndcs
+
+	column breakeven_month
+		dataType: double
+		formatString: 0
+		lineageTag: dc1d4b4a-930e-5d0e-8a06-4d81451a7076
+		summarizeBy: none
+		sourceColumn: breakeven_month
+
+	column breakeven_month_discounted
+		dataType: double
+		formatString: 0
+		lineageTag: 89ae3417-2902-51ca-9ac8-8970712e5fcf
+		summarizeBy: none
+		sourceColumn: breakeven_month_discounted
+
+	column breakeven_p5
+		dataType: double
+		formatString: 0
+		lineageTag: 96e71eb8-5e1d-54e5-ab04-0343f92d6d5e
+		summarizeBy: none
+		sourceColumn: breakeven_p5
+
+	column breakeven_p95
+		dataType: double
+		formatString: 0
+		lineageTag: 48ceb9ad-e338-5e9b-bc71-8a340d826c6f
+		summarizeBy: none
+		sourceColumn: breakeven_p95
+
+	column share_of_boot_never
+		dataType: double
+		formatString: 0%
+		lineageTag: 535ece5f-3537-543d-81f8-24a3c5f01bc6
+		summarizeBy: none
+		sourceColumn: share_of_boot_never
+
+	column revshare_24m_usd
+		dataType: double
+		formatString: $#,0
+		lineageTag: a8dc7bab-4d56-5323-a14b-c520e5e434b3
+		summarizeBy: none
+		sourceColumn: revshare_24m_usd
+
+	column revshare_24m_disc_usd
+		dataType: double
+		formatString: $#,0
+		lineageTag: 777c0631-397a-5130-88ad-e1035243d55b
+		summarizeBy: none
+		sourceColumn: revshare_24m_disc_usd
+
+	column ndcs_observed_m24
+		dataType: int64
+		formatString: #,0
+		lineageTag: f6860e00-56a4-56e4-a151-1f774b8bfd2c
+		summarizeBy: none
+		sourceColumn: ndcs_observed_m24
+
+	column better_deal
+		dataType: string
+		lineageTag: 7d82baa7-3f74-5591-9ec9-5c8af804360c
+		summarizeBy: none
+		sourceColumn: better_deal
+
+	partition 'Deal Summary' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\page3_deal_summary.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"operator", type text}, {"vertical", type text}, {"current_deal", type text}, {"cpa_offer_usd", type number}, {"revshare_offer_pct", type number}, {"ndcs", Int64.Type}, {"breakeven_month", type number}, {"breakeven_month_discounted", type number}, {"breakeven_p5", type number}, {"breakeven_p95", type number}, {"share_of_boot_never", type number}, {"revshare_24m_usd", type number}, {"revshare_24m_disc_usd", type number}, {"ndcs_observed_m24", Int64.Type}, {"better_deal", type text}}, "en-US")
+				in
+					Typed

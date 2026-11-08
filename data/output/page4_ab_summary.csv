@@ -1,0 +1,2 @@
+users_control,users_treatment,conv_control,conv_treatment,diff_pts,rel_lift,z,p_two_sided,p_one_sided_new_better,ci95_lo_pts,ci95_hi_pts,boot_share_new_better,mde_pts_at_80pct_power,users_per_group_for_0_5pt_lift,days,false_positive_single_look,false_positive_daily_peeking
+145274,145310,0.1203863045004612,0.11880806551510564,-0.15782389853555567,-0.01310978845894809,-1.3109241984234394,0.18988337448195103,0.9050583127590245,-0.3937860245052737,0.07813822743416238,0.09365,0.3402939445535713,67673,23,0.04975,0.2585

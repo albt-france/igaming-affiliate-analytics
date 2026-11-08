@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "PlayersBestCaseStudy"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ae373a63-6f78-5126-87bd-a670f8eb6ec7"
+  }
+}

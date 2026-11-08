@@ -1,0 +1,201 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "scoreTable",
+  "position": {
+    "x": 32,
+    "y": 658,
+    "z": 7000,
+    "height": 370,
+    "width": 916,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Anomaly Score"
+                    }
+                  },
+                  "Property": "anomaly"
+                }
+              },
+              "queryRef": "Anomaly Score.anomaly",
+              "nativeQueryRef": "anomaly",
+              "displayName": "Anomaly"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Anomaly Score"
+                    }
+                  },
+                  "Property": "start"
+                }
+              },
+              "queryRef": "Anomaly Score.start",
+              "nativeQueryRef": "start",
+              "displayName": "Started"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Anomaly Score"
+                    }
+                  },
+                  "Property": "first_flag"
+                }
+              },
+              "queryRef": "Anomaly Score.first_flag",
+              "nativeQueryRef": "first_flag",
+              "displayName": "First flag"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Anomaly Score"
+                    }
+                  },
+                  "Property": "lag_days"
+                }
+              },
+              "queryRef": "Anomaly Score.lag_days",
+              "nativeQueryRef": "lag_days",
+              "displayName": "Lag (days)"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Anomaly Score"
+                    }
+                  },
+                  "Property": "flagged_segments"
+                }
+              },
+              "queryRef": "Anomaly Score.flagged_segments",
+              "nativeQueryRef": "flagged_segments",
+              "displayName": "Segment"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Anomaly Score"
+                    }
+                  },
+                  "Property": "false_positive_days"
+                }
+              },
+              "queryRef": "Anomaly Score.false_positive_days",
+              "nativeQueryRef": "false_positive_days",
+              "displayName": "False alarm days"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#52514E'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Detection score against the injected anomalies'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

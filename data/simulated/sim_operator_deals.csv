@@ -1,0 +1,8 @@
+operator,vertical,current_deal,cpa_offer_usd,revshare_offer_pct,hybrid_cpa_usd,hybrid_revshare_pct
+Operator A,Sportsbook,CPA,300,0.3,,
+Operator B,Sportsbook,Revenue share,275,0.3,,
+Operator C,Sportsbook,Hybrid,250,0.25,125.0,0.2
+Operator D,Sportsbook,CPA,250,0.25,,
+Operator E,Casino,CPA,400,0.35,,
+Operator F,Casino,Revenue share,375,0.35,,
+Operator G,Casino,Hybrid,350,0.3,200.0,0.2

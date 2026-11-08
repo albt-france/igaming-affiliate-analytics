@@ -1,0 +1,4 @@
+anomaly,start,detected,first_flag,lag_days,flagged_segments,false_positive_days
+Bot clicks,2025-10-20,True,2025-10-20,0,Paid search,0
+Broken tracking,2026-01-12,True,2026-01-12,0,Operator D,0
+Level shift,2026-03-15,True,2026-03-18,3,SEO,0

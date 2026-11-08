@@ -1,0 +1,34 @@
+table 'AB Stats'
+	lineageTag: 95c5ad44-64b1-5dbf-a041-d19ac533481f
+
+	column sort_order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 96e408a6-687b-5f4d-a164-f88cb3b47484
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	column statistic
+		dataType: string
+		lineageTag: f9ef03e3-b0ad-52be-8772-b1f165da64b3
+		summarizeBy: none
+		sourceColumn: statistic
+		sortByColumn: sort_order
+
+	column value
+		dataType: string
+		lineageTag: 1e979565-9964-51e9-a11c-c9c054811b21
+		summarizeBy: none
+		sourceColumn: value
+
+	partition 'AB Stats' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\page4_ab_stats.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"sort_order", Int64.Type}, {"statistic", type text}, {"value", type text}}, "en-US")
+				in
+					Typed

@@ -1,0 +1,268 @@
+table _Measures
+	lineageTag: 1ecc7392-50e7-52e0-981e-eab5bf2c254e
+
+	measure Sessions = SUM ( Traffic[sessions] )
+		formatString: #,0
+		displayFolder: Funnel
+		lineageTag: 503661d3-3b4c-599c-8bc7-3254146f67b0
+
+	measure Clickouts = SUM ( Traffic[clickouts] )
+		formatString: #,0
+		displayFolder: Funnel
+		lineageTag: 3a17e7b5-8ee4-562d-a74f-961d8d4ab8d1
+
+	measure 'Clickout Rate' = DIVIDE ( [Clickouts], [Sessions] )
+		formatString: 0.0%
+		displayFolder: Funnel
+		lineageTag: 190ea7cd-62d3-5cf0-aae5-df6768fa5d65
+
+	measure Registrations = SUM ( 'Operator Daily'[registrations] )
+		formatString: #,0
+		displayFolder: Funnel
+		lineageTag: 110a0324-2114-569a-8067-9c09c120f447
+
+	measure 'Registration Rate' = DIVIDE ( [Registrations], SUM ( 'Operator Daily'[clickouts] ) )
+		formatString: 0.0%
+		displayFolder: Funnel
+		lineageTag: 649fba72-17ca-5ced-b78d-fa40e96d9e67
+
+	measure 'NDCs Reported' = COUNTROWS ( NDCs )
+		formatString: #,0
+		displayFolder: Funnel
+		lineageTag: 1ee094bb-25d6-521c-999b-bfaed620e550
+
+	measure 'NDCs Tracked' = SUM ( 'Operator Daily'[ndcs_tracked] )
+		formatString: #,0
+		displayFolder: Funnel
+		lineageTag: 41377246-d735-5417-bd15-f772a2de393a
+
+	measure 'NDC per Clickout' = DIVIDE ( [NDCs Reported], [Clickouts] )
+		formatString: 0.00%
+		displayFolder: Funnel
+		lineageTag: 28697357-5535-56e6-968b-d3450092e2a6
+
+	measure 'Paid Spend' = SUM ( 'Marketing Cost'[spend_usd] )
+		formatString: $#,0
+		displayFolder: Funnel
+		lineageTag: 727554eb-5184-5ece-9348-6ccdbd516c00
+
+	measure 'Revenue 12m' = SUM ( NDCs[revenue_12m_usd] )
+		formatString: $#,0
+		displayFolder: Value (12m cohorts)
+		lineageTag: cffb3eb4-bec4-54d2-82c2-e0988847526c
+
+	measure 'Window Sessions' = CALCULATE ( [Sessions], DATESBETWEEN ( 'Date'[Date], DATE ( 2024, 9, 1 ), DATE ( 2025, 8, 31 ) ) )
+		formatString: #,0
+		displayFolder: Value (12m cohorts)
+		lineageTag: 749ee6fc-7922-5199-a807-e4679b291c8b
+
+	measure 'Window Clickouts' = CALCULATE ( [Clickouts], DATESBETWEEN ( 'Date'[Date], DATE ( 2024, 9, 1 ), DATE ( 2025, 8, 31 ) ) )
+		formatString: #,0
+		displayFolder: Value (12m cohorts)
+		lineageTag: d1376b37-ecdd-5fef-8b24-e2ad365a4326
+
+	measure 'Window NDCs' = CALCULATE ( [NDCs Reported], DATESBETWEEN ( 'Date'[Date], DATE ( 2024, 9, 1 ), DATE ( 2025, 8, 31 ) ) )
+		formatString: #,0
+		displayFolder: Value (12m cohorts)
+		lineageTag: db1f1a67-b203-58d5-94a0-1819e262e152
+
+	measure 'Window Spend' = CALCULATE ( [Paid Spend], DATESBETWEEN ( 'Date'[Date], DATE ( 2024, 9, 1 ), DATE ( 2025, 8, 31 ) ) )
+		formatString: $#,0
+		displayFolder: Value (12m cohorts)
+		lineageTag: c5138c5c-f068-5997-ad4b-9812253d2904
+
+	measure 'Window Clickout Rate' = DIVIDE ( [Window Clickouts], [Window Sessions] )
+		formatString: 0.0%
+		displayFolder: Value (12m cohorts)
+		lineageTag: b4c03853-2317-5d1a-8bd6-48a164ab60fd
+
+	measure 'Window NDC per Clickout' = DIVIDE ( [Window NDCs], [Window Clickouts] )
+		formatString: 0.00%
+		displayFolder: Value (12m cohorts)
+		lineageTag: dc827653-12b6-59ca-948a-ebdef82669be
+
+	measure EPC = DIVIDE ( [Revenue 12m], [Window Clickouts] )
+		formatString: $#,0.00
+		displayFolder: Value (12m cohorts)
+		lineageTag: d2da09d8-0bac-5e5a-8723-2c7ee5cf01cc
+
+	measure 'Revenue per NDC' = DIVIDE ( [Revenue 12m], [Window NDCs] )
+		formatString: $#,0
+		displayFolder: Value (12m cohorts)
+		lineageTag: 949568be-5166-5526-86cd-323b1ff7f553
+
+	measure 'Revenue per Session' = DIVIDE ( [Revenue 12m], [Window Sessions] )
+		formatString: $#,0.00
+		displayFolder: Value (12m cohorts)
+		lineageTag: 0a139bf0-0cb6-5b43-b079-ca81a4a58a66
+
+	measure ROI = IF ( [Window Spend] > 0, DIVIDE ( [Revenue 12m] - [Window Spend], [Window Spend] ) )
+		formatString: 0%
+		displayFolder: Value (12m cohorts)
+		lineageTag: 135eb1b9-d0e0-5b6e-9e50-42cb16b0a1f0
+
+	measure 'GAMB CPA Share 2025' = DIVIDE ( CALCULATE ( SUM ( 'Public Figures'[value] ), 'Public Figures'[metric] = "perf_marketing_mix", 'Public Figures'[dimension] = "CPA", 'Public Figures'[period] = "FY2025" ), 100 )
+		formatString: 0%
+		displayFolder: Public
+		lineageTag: 985a43da-5c8e-5e0e-8bbb-e33d1a8f1f98
+
+	measure 'GAMB Revenue 2025 ($m)' = DIVIDE ( CALCULATE ( SUM ( 'Public Figures'[value] ), 'Public Figures'[company] = "Gambling.com Group", 'Public Figures'[metric] = "revenue", 'Public Figures'[period] = "FY2025" ), 1000 )
+		formatString: $#,0.0 \m
+		displayFolder: Public
+		lineageTag: 0c6bfcd1-46db-58ca-9575-abf628a8e29d
+
+	measure 'GAMB North America Share 2025' = CALCULATE ( SUM ( 'Public KPIs'[value] ), 'Public KPIs'[kpi] = "north_america_share", 'Public KPIs'[year] = "FY2025" )
+		formatString: 0%
+		displayFolder: Public
+		lineageTag: eed4e3ab-91ff-5a2e-ba6b-da06dea99958
+
+	measure 'BC NA Revenue Share 2025' = CALCULATE ( SUM ( 'Public KPIs'[value] ), 'Public KPIs'[kpi] = "revshare_share", 'Public KPIs'[year] = "FY2025", 'Public KPIs'[region] = "North America" )
+		formatString: 0%
+		displayFolder: Public
+		lineageTag: 64e56461-987f-5c0b-82bd-2eb829ad6dce
+
+	measure 'Public KPI Value' = SUM ( 'Public KPIs'[value] )
+		formatString: #,0
+		displayFolder: Public
+		lineageTag: bb0c3942-c0c1-5db5-96f6-b39081e70557
+
+	measure 'Public KPI Pct' = SUM ( 'Public KPIs'[value] )
+		formatString: 0%
+		displayFolder: Public
+		lineageTag: e94fa04c-94bd-53db-b305-f6642f09a5d0
+
+	measure 'Public Figure Value' = SUM ( 'Public Figures'[value] )
+		formatString: #,0
+		displayFolder: Public
+		lineageTag: aa0ab001-fe6d-5561-aec7-a0f17537f003
+
+	measure 'Cum Revenue Share per NDC' = AVERAGE ( 'Deal Curves'[cum_revshare_per_ndc_usd] )
+		formatString: $#,0
+		displayFolder: Deals
+		lineageTag: 858ef22d-7d70-5486-81fa-b5a27c6f6338
+
+	measure 'Cum Revenue Share Discounted' = AVERAGE ( 'Deal Curves'[disc_revshare_per_ndc_usd] )
+		formatString: $#,0
+		displayFolder: Deals
+		lineageTag: 06ef917a-7b17-52da-9acf-104bda8b107b
+
+	measure 'CPA Offer' = AVERAGE ( 'Deal Curves'[cpa_offer_usd] )
+		formatString: $#,0
+		displayFolder: Deals
+		lineageTag: 328bc1ad-1340-5dd9-a1df-e74dd1d871ad
+
+	measure 'Revenue Share vs CPA' = DIVIDE ( SUM ( 'Deal Curves'[cum_revshare_per_ndc_usd] ), SUM ( 'Deal Curves'[cpa_offer_usd] ) )
+		formatString: 0%
+		displayFolder: Deals
+		lineageTag: 3fb6c3b8-c455-5527-a86a-4af386b2d361
+
+	measure 'AB Conversion Control' = MAX ( 'AB Summary'[conv_control] )
+		formatString: 0.00%
+		displayFolder: AB test
+		lineageTag: a62c0540-1781-5e54-b25d-2b3cc4bb8fe7
+
+	measure 'AB Conversion New Page' = MAX ( 'AB Summary'[conv_treatment] )
+		formatString: 0.00%
+		displayFolder: AB test
+		lineageTag: 35853ef0-4e7d-557f-91fc-a74cc2767ca0
+
+	measure 'AB Difference (pts)' = MAX ( 'AB Summary'[diff_pts] )
+		formatString: +0.00 \p\t\s;-0.00 \p\t\s
+		displayFolder: AB test
+		lineageTag: da543826-ab29-5fdf-b345-b2b202a4df96
+
+	measure 'AB p-value' = MAX ( 'AB Summary'[p_two_sided] )
+		formatString: 0.00
+		displayFolder: AB test
+		lineageTag: c783cb0c-3d64-5d69-bcef-559d5b326d0a
+
+	measure 'AB Cumulative z' = AVERAGE ( 'AB Daily'[cum_z] )
+		formatString: 0.00
+		displayFolder: AB test
+		lineageTag: 2df9f4f0-1ac5-5272-bed5-f113e4d847b3
+
+	measure 'AB Cum Conversion Control' = AVERAGE ( 'AB Daily'[cum_conv_control] )
+		formatString: 0.00%
+		displayFolder: AB test
+		lineageTag: 00bb793a-7252-516f-83ba-13c3dfb759cd
+
+	measure 'AB Cum Conversion New Page' = AVERAGE ( 'AB Daily'[cum_conv_treatment] )
+		formatString: 0.00%
+		displayFolder: AB test
+		lineageTag: 3068d016-6372-5aeb-9002-ac68cbd873c2
+
+	measure Actual = CALCULATE ( SUM ( Forecast[actual] ), Forecast[phase] = "Actual" )
+		formatString: #,0
+		displayFolder: Forecast
+		lineageTag: fbc3baac-1b5f-53a3-957e-8d28c9971495
+
+	measure 'Forecast 2026-27' = CALCULATE ( SUM ( Forecast[forecast] ), Forecast[phase] = "Forecast 2026-27" )
+		formatString: #,0
+		displayFolder: Forecast
+		lineageTag: 690e8481-e4ef-561b-91e6-b03bac6b68bd
+
+	measure 'Forecast Low 80' = CALCULATE ( SUM ( Forecast[lo80] ), Forecast[phase] = "Forecast 2026-27" )
+		formatString: #,0
+		displayFolder: Forecast
+		lineageTag: e5935d6b-1a34-5363-8f17-38643585b42e
+
+	measure 'Forecast High 80' = CALCULATE ( SUM ( Forecast[hi80] ), Forecast[phase] = "Forecast 2026-27" )
+		formatString: #,0
+		displayFolder: Forecast
+		lineageTag: 1df84f82-33bb-5e46-b4dd-4b4e10d6232d
+
+	measure 'Back-test Actual' = CALCULATE ( SUM ( Forecast[actual] ), Forecast[phase] = "Back-test (existing states)" )
+		formatString: #,0
+		displayFolder: Forecast
+		lineageTag: 6a5ff149-7dfb-5c06-ac8a-e81193a16fea
+
+	measure 'Back-test Forecast' = CALCULATE ( SUM ( Forecast[forecast] ), Forecast[phase] = "Back-test (existing states)" )
+		formatString: #,0
+		displayFolder: Forecast
+		lineageTag: a6c0285a-0d23-548c-be37-5e73889aab7c
+
+	measure 'Sportsbook NDC Growth 2026-27' = CALCULATE ( SUM ( 'Season Totals'[growth] ), 'Season Totals'[vertical] = "Sportsbook", 'Season Totals'[metric] = "NDCs" )
+		formatString: +0.0%;-0.0%
+		displayFolder: Forecast
+		lineageTag: c0865330-aa9a-5c3e-b0d8-d9216d2d71b8
+
+	measure 'Sportsbook Session Error Back-test' = CALCULATE ( SUM ( Backtest[season_error] ), Backtest[vertical] = "Sportsbook", Backtest[metric] = "Sessions" )
+		formatString: +0.0%;-0.0%
+		displayFolder: Forecast
+		lineageTag: 13d35441-9e63-5fe2-ac36-5acfdd279709
+
+	measure 'Metric Value' = AVERAGE ( 'Anomaly Flags'[value] )
+		formatString: 0.000
+		displayFolder: Anomalies
+		lineageTag: f984b879-cb32-5cf9-a95f-109b8d59b934
+
+	measure 'Metric Baseline' = AVERAGE ( 'Anomaly Flags'[baseline] )
+		formatString: 0.000
+		displayFolder: Anomalies
+		lineageTag: c0293368-5456-5362-9140-57e1682b6356
+
+	measure 'Flagged Value' = CALCULATE ( AVERAGE ( 'Anomaly Flags'[value] ), 'Anomaly Flags'[flagged] = TRUE () )
+		formatString: 0.000
+		displayFolder: Anomalies
+		lineageTag: 50c7a517-cac5-5548-ac7b-108a12965637
+
+	measure 'Anomalies Detected' = COUNTROWS ( FILTER ( 'Anomaly Score', 'Anomaly Score'[detected] = TRUE () ) )
+		formatString: 0
+		displayFolder: Anomalies
+		lineageTag: 851c4c02-bc55-5d8d-8217-0b9543fcd4b4
+
+	measure 'False Alarm Days' = SUM ( 'Anomaly Score'[false_positive_days] )
+		formatString: 0
+		displayFolder: Anomalies
+		lineageTag: 4a9636db-3886-5f6f-986d-ba4afdf20138
+
+	column _
+		dataType: string
+		isHidden
+		lineageTag: b4c3b491-29b3-5128-8848-dd953b372649
+		summarizeBy: none
+		sourceColumn: _
+
+	partition _Measures = m
+		mode: import
+		source = #table(type table [_ = text], {})

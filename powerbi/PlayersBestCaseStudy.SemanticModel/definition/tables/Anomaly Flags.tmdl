@@ -1,0 +1,67 @@
+table 'Anomaly Flags'
+	lineageTag: e43d12c4-e07b-5baa-a8da-33dce8fe73be
+
+	column date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: d9822379-e0f6-5f5d-886d-19b63fdabb29
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column rule
+		dataType: string
+		lineageTag: b7a3a20e-ff90-571e-b7fb-8848cb7ef528
+		summarizeBy: none
+		sourceColumn: rule
+
+	column segment
+		dataType: string
+		lineageTag: 4e7dd485-b8a3-5cdc-a560-7b43993b04ed
+		summarizeBy: none
+		sourceColumn: segment
+
+	column value
+		dataType: double
+		formatString: 0.000
+		lineageTag: 96d38444-1e11-5e41-9099-59b308d289db
+		summarizeBy: none
+		sourceColumn: value
+
+	column baseline
+		dataType: double
+		formatString: 0.000
+		lineageTag: 3ad1a54d-7368-52b8-ba13-33ffd85c76f9
+		summarizeBy: none
+		sourceColumn: baseline
+
+	column z
+		dataType: double
+		formatString: 0.0
+		lineageTag: 21f7b870-e0f1-5e59-a633-bb4ddd9cde15
+		summarizeBy: none
+		sourceColumn: z
+
+	column flagged
+		dataType: boolean
+		lineageTag: fd99cd57-69e0-5b90-a17e-156f19c432d6
+		summarizeBy: none
+		sourceColumn: flagged
+
+	column in_true_window
+		dataType: boolean
+		lineageTag: e7b4e215-d822-5090-9f4f-b9fd0c98084c
+		summarizeBy: none
+		sourceColumn: in_true_window
+
+	partition 'Anomaly Flags' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\page5_anomaly_flags.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"date", type date}, {"rule", type text}, {"segment", type text}, {"value", type number}, {"baseline", type number}, {"z", type number}, {"flagged", type logical}, {"in_true_window", type logical}}, "en-US")
+				in
+					Typed

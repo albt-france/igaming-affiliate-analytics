@@ -1,0 +1,12 @@
+table State
+	lineageTag: 3c0e415e-fbfb-5e74-b611-076deb90c739
+
+	column state
+		dataType: string
+		lineageTag: 317860ea-df73-50b8-aa4c-2af50c5679a1
+		summarizeBy: none
+		sourceColumn: state
+
+	partition State = m
+		mode: import
+		source = #table(type table [state = text], {{"NY"}, {"IL"}, {"PA"}, {"OH"}, {"NJ"}, {"MI"}, {"AZ"}, {"CO"}, {"MO"}})

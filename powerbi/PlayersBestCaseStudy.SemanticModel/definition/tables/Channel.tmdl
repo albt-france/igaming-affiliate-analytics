@@ -1,0 +1,12 @@
+table Channel
+	lineageTag: 31582652-e1fa-5d20-bce1-75f035b6d3c7
+
+	column channel
+		dataType: string
+		lineageTag: f0e31251-5114-5158-9456-eef97c6f1bc2
+		summarizeBy: none
+		sourceColumn: channel
+
+	partition Channel = m
+		mode: import
+		source = #table(type table [channel = text], {{"SEO"}, {"Paid search"}, {"Social"}, {"Email"}, {"Direct"}})

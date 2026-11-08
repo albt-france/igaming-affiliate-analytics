@@ -1,0 +1,59 @@
+table Operator
+	lineageTag: 0138bf54-3d7f-5b21-b086-acd5896bb393
+
+	column operator
+		dataType: string
+		lineageTag: 4c41888c-aee3-526a-afb2-4be58f037c44
+		summarizeBy: none
+		sourceColumn: operator
+
+	column vertical
+		dataType: string
+		lineageTag: 2fb3d2c5-82c9-5c83-85e2-fab8d732b10b
+		summarizeBy: none
+		sourceColumn: vertical
+
+	column current_deal
+		dataType: string
+		lineageTag: 694db2ef-7aea-5bb0-aaac-9521be442404
+		summarizeBy: none
+		sourceColumn: current_deal
+
+	column cpa_offer_usd
+		dataType: double
+		formatString: $#,0
+		lineageTag: 306ceeb6-e684-5fd8-ba6d-8ad6ac0ea48b
+		summarizeBy: none
+		sourceColumn: cpa_offer_usd
+
+	column revshare_offer_pct
+		dataType: double
+		formatString: 0%
+		lineageTag: 30612cb5-4916-5ab9-9cf6-b43d473b5802
+		summarizeBy: none
+		sourceColumn: revshare_offer_pct
+
+	column hybrid_cpa_usd
+		dataType: double
+		formatString: $#,0
+		lineageTag: 0768c8e3-c90a-5ae4-b412-14553e18a210
+		summarizeBy: none
+		sourceColumn: hybrid_cpa_usd
+
+	column hybrid_revshare_pct
+		dataType: double
+		formatString: 0%
+		lineageTag: 4e90663f-6ee6-5f81-a3be-2915d6d4ddb1
+		summarizeBy: none
+		sourceColumn: hybrid_revshare_pct
+
+	partition Operator = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "simulated\sim_operator_deals.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"operator", type text}, {"vertical", type text}, {"current_deal", type text}, {"cpa_offer_usd", type number}, {"revshare_offer_pct", type number}, {"hybrid_cpa_usd", type number}, {"hybrid_revshare_pct", type number}}, "en-US")
+				in
+					Typed

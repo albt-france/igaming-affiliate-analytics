@@ -1,0 +1,169 @@
+operator,vertical,current_deal,month_n,ndcs_observed,ngr_per_ndc_usd,cum_ngr_per_ndc_usd,cpa_offer_usd,revshare_offer_pct,cum_revshare_per_ndc_usd,revshare_ahead
+Operator A,Sportsbook,CPA,1,42250,117.95,117.95,300,0.3,35.39,False
+Operator A,Sportsbook,CPA,2,41261,102.71,220.66,300,0.3,66.2,False
+Operator A,Sportsbook,CPA,3,40177,85.67,306.34,300,0.3,91.9,False
+Operator A,Sportsbook,CPA,4,38915,75.1,381.44,300,0.3,114.43,False
+Operator A,Sportsbook,CPA,5,37564,65.88,447.32,300,0.3,134.19,False
+Operator A,Sportsbook,CPA,6,36150,57.04,504.35,300,0.3,151.31,False
+Operator A,Sportsbook,CPA,7,33980,49.4,553.75,300,0.3,166.13,False
+Operator A,Sportsbook,CPA,8,32012,42.1,595.86,300,0.3,178.76,False
+Operator A,Sportsbook,CPA,9,29509,36.19,632.04,300,0.3,189.61,False
+Operator A,Sportsbook,CPA,10,26790,31.17,663.21,300,0.3,198.96,False
+Operator A,Sportsbook,CPA,11,24414,27.5,690.71,300,0.3,207.21,False
+Operator A,Sportsbook,CPA,12,22048,24.78,715.49,300,0.3,214.65,False
+Operator A,Sportsbook,CPA,13,19748,19.81,735.3,300,0.3,220.59,False
+Operator A,Sportsbook,CPA,14,18746,18.39,753.69,300,0.3,226.11,False
+Operator A,Sportsbook,CPA,15,17792,16.36,770.06,300,0.3,231.02,False
+Operator A,Sportsbook,CPA,16,16583,14.74,784.8,300,0.3,235.44,False
+Operator A,Sportsbook,CPA,17,15390,12.74,797.54,300,0.3,239.26,False
+Operator A,Sportsbook,CPA,18,13967,8.24,805.78,300,0.3,241.73,False
+Operator A,Sportsbook,CPA,19,12111,11.07,816.85,300,0.3,245.05,False
+Operator A,Sportsbook,CPA,20,10476,7.79,824.64,300,0.3,247.39,False
+Operator A,Sportsbook,CPA,21,8360,6.41,831.05,300,0.3,249.31,False
+Operator A,Sportsbook,CPA,22,6189,3.85,834.89,300,0.3,250.47,False
+Operator A,Sportsbook,CPA,23,4073,4.45,839.34,300,0.3,251.8,False
+Operator A,Sportsbook,CPA,24,1983,7.11,846.45,300,0.3,253.93,False
+Operator B,Sportsbook,Revenue share,1,27706,124.65,124.65,275,0.3,37.4,False
+Operator B,Sportsbook,Revenue share,2,27035,105.6,230.25,275,0.3,69.07,False
+Operator B,Sportsbook,Revenue share,3,26327,92.51,322.76,275,0.3,96.83,False
+Operator B,Sportsbook,Revenue share,4,25554,77.82,400.58,275,0.3,120.17,False
+Operator B,Sportsbook,Revenue share,5,24690,69.42,470.0,275,0.3,141.0,False
+Operator B,Sportsbook,Revenue share,6,23771,60.06,530.06,275,0.3,159.02,False
+Operator B,Sportsbook,Revenue share,7,22389,51.94,582.0,275,0.3,174.6,False
+Operator B,Sportsbook,Revenue share,8,21082,45.45,627.45,275,0.3,188.23,False
+Operator B,Sportsbook,Revenue share,9,19491,38.23,665.68,275,0.3,199.7,False
+Operator B,Sportsbook,Revenue share,10,17665,34.09,699.77,275,0.3,209.93,False
+Operator B,Sportsbook,Revenue share,11,16093,29.49,729.27,275,0.3,218.78,False
+Operator B,Sportsbook,Revenue share,12,14501,27.12,756.39,275,0.3,226.92,False
+Operator B,Sportsbook,Revenue share,13,13003,22.98,779.37,275,0.3,233.81,False
+Operator B,Sportsbook,Revenue share,14,12333,17.41,796.78,275,0.3,239.03,False
+Operator B,Sportsbook,Revenue share,15,11708,18.43,815.21,275,0.3,244.56,False
+Operator B,Sportsbook,Revenue share,16,10932,15.84,831.06,275,0.3,249.32,False
+Operator B,Sportsbook,Revenue share,17,10080,13.5,844.55,275,0.3,253.37,False
+Operator B,Sportsbook,Revenue share,18,9193,11.74,856.29,275,0.3,256.89,False
+Operator B,Sportsbook,Revenue share,19,7961,9.44,865.73,275,0.3,259.72,False
+Operator B,Sportsbook,Revenue share,20,6875,11.02,876.74,275,0.3,263.02,False
+Operator B,Sportsbook,Revenue share,21,5474,9.61,886.36,275,0.3,265.91,False
+Operator B,Sportsbook,Revenue share,22,4021,8.79,895.14,275,0.3,268.54,False
+Operator B,Sportsbook,Revenue share,23,2698,9.68,904.82,275,0.3,271.45,False
+Operator B,Sportsbook,Revenue share,24,1329,5.04,909.86,275,0.3,272.96,False
+Operator C,Sportsbook,Hybrid,1,20905,106.64,106.64,250,0.25,26.66,False
+Operator C,Sportsbook,Hybrid,2,20382,90.7,197.35,250,0.25,49.34,False
+Operator C,Sportsbook,Hybrid,3,19865,80.06,277.4,250,0.25,69.35,False
+Operator C,Sportsbook,Hybrid,4,19282,66.57,343.97,250,0.25,85.99,False
+Operator C,Sportsbook,Hybrid,5,18650,57.03,401.0,250,0.25,100.25,False
+Operator C,Sportsbook,Hybrid,6,17944,48.87,449.87,250,0.25,112.47,False
+Operator C,Sportsbook,Hybrid,7,16963,43.01,492.88,250,0.25,123.22,False
+Operator C,Sportsbook,Hybrid,8,15922,36.11,528.99,250,0.25,132.25,False
+Operator C,Sportsbook,Hybrid,9,14705,32.63,561.62,250,0.25,140.4,False
+Operator C,Sportsbook,Hybrid,10,13400,28.06,589.68,250,0.25,147.42,False
+Operator C,Sportsbook,Hybrid,11,12195,22.06,611.74,250,0.25,152.94,False
+Operator C,Sportsbook,Hybrid,12,11024,21.34,633.08,250,0.25,158.27,False
+Operator C,Sportsbook,Hybrid,13,9857,19.83,652.92,250,0.25,163.23,False
+Operator C,Sportsbook,Hybrid,14,9352,18.09,671.01,250,0.25,167.75,False
+Operator C,Sportsbook,Hybrid,15,8873,16.1,687.1,250,0.25,171.78,False
+Operator C,Sportsbook,Hybrid,16,8273,11.63,698.74,250,0.25,174.68,False
+Operator C,Sportsbook,Hybrid,17,7667,10.8,709.54,250,0.25,177.38,False
+Operator C,Sportsbook,Hybrid,18,6951,10.48,720.01,250,0.25,180.0,False
+Operator C,Sportsbook,Hybrid,19,6010,7.65,727.66,250,0.25,181.92,False
+Operator C,Sportsbook,Hybrid,20,5177,6.73,734.39,250,0.25,183.6,False
+Operator C,Sportsbook,Hybrid,21,4209,5.33,739.72,250,0.25,184.93,False
+Operator C,Sportsbook,Hybrid,22,3098,3.44,743.16,250,0.25,185.79,False
+Operator C,Sportsbook,Hybrid,23,2046,6.75,749.91,250,0.25,187.48,False
+Operator C,Sportsbook,Hybrid,24,996,4.77,754.68,250,0.25,188.67,False
+Operator D,Sportsbook,CPA,1,19955,97.25,97.25,250,0.25,24.31,False
+Operator D,Sportsbook,CPA,2,19427,82.87,180.12,250,0.25,45.03,False
+Operator D,Sportsbook,CPA,3,18951,73.61,253.73,250,0.25,63.43,False
+Operator D,Sportsbook,CPA,4,18322,60.61,314.34,250,0.25,78.58,False
+Operator D,Sportsbook,CPA,5,17732,50.83,365.17,250,0.25,91.29,False
+Operator D,Sportsbook,CPA,6,17060,43.07,408.24,250,0.25,102.06,False
+Operator D,Sportsbook,CPA,7,16084,37.1,445.34,250,0.25,111.34,False
+Operator D,Sportsbook,CPA,8,15142,30.83,476.17,250,0.25,119.04,False
+Operator D,Sportsbook,CPA,9,13982,25.95,502.12,250,0.25,125.53,False
+Operator D,Sportsbook,CPA,10,12662,27.66,529.78,250,0.25,132.45,False
+Operator D,Sportsbook,CPA,11,11546,21.15,550.93,250,0.25,137.73,False
+Operator D,Sportsbook,CPA,12,10410,16.94,567.87,250,0.25,141.97,False
+Operator D,Sportsbook,CPA,13,9313,14.59,582.46,250,0.25,145.61,False
+Operator D,Sportsbook,CPA,14,8865,13.04,595.49,250,0.25,148.87,False
+Operator D,Sportsbook,CPA,15,8394,10.5,605.99,250,0.25,151.5,False
+Operator D,Sportsbook,CPA,16,7816,8.49,614.48,250,0.25,153.62,False
+Operator D,Sportsbook,CPA,17,7241,8.53,623.01,250,0.25,155.75,False
+Operator D,Sportsbook,CPA,18,6599,7.6,630.61,250,0.25,157.65,False
+Operator D,Sportsbook,CPA,19,5700,4.7,635.31,250,0.25,158.83,False
+Operator D,Sportsbook,CPA,20,4914,4.77,640.08,250,0.25,160.02,False
+Operator D,Sportsbook,CPA,21,3958,5.24,645.32,250,0.25,161.33,False
+Operator D,Sportsbook,CPA,22,2909,3.71,649.03,250,0.25,162.26,False
+Operator D,Sportsbook,CPA,23,1914,2.89,651.92,250,0.25,162.98,False
+Operator D,Sportsbook,CPA,24,972,3.82,655.74,250,0.25,163.93,False
+Operator E,Casino,CPA,1,4732,206.85,206.85,400,0.35,72.4,False
+Operator E,Casino,CPA,2,4554,180.5,387.35,400,0.35,135.57,False
+Operator E,Casino,CPA,3,4372,159.15,546.5,400,0.35,191.28,False
+Operator E,Casino,CPA,4,4227,141.4,687.9,400,0.35,240.76,False
+Operator E,Casino,CPA,5,4036,136.79,824.69,400,0.35,288.64,False
+Operator E,Casino,CPA,6,3850,119.72,944.42,400,0.35,330.55,False
+Operator E,Casino,CPA,7,3625,110.62,1055.04,400,0.35,369.26,False
+Operator E,Casino,CPA,8,3406,98.29,1153.33,400,0.35,403.67,True
+Operator E,Casino,CPA,9,3151,83.35,1236.68,400,0.35,432.84,True
+Operator E,Casino,CPA,10,2954,77.92,1314.6,400,0.35,460.11,True
+Operator E,Casino,CPA,11,2754,65.41,1380.01,400,0.35,483.0,True
+Operator E,Casino,CPA,12,2560,53.35,1433.36,400,0.35,501.68,True
+Operator E,Casino,CPA,13,2334,57.44,1490.8,400,0.35,521.78,True
+Operator E,Casino,CPA,14,2144,46.21,1537.01,400,0.35,537.95,True
+Operator E,Casino,CPA,15,1972,43.84,1580.86,400,0.35,553.3,True
+Operator E,Casino,CPA,16,1803,43.39,1624.24,400,0.35,568.48,True
+Operator E,Casino,CPA,17,1601,43.1,1667.34,400,0.35,583.57,True
+Operator E,Casino,CPA,18,1384,28.91,1696.25,400,0.35,593.69,True
+Operator E,Casino,CPA,19,1191,24.88,1721.13,400,0.35,602.39,True
+Operator E,Casino,CPA,20,981,31.88,1753.0,400,0.35,613.55,True
+Operator E,Casino,CPA,21,801,40.1,1793.1,400,0.35,627.59,True
+Operator E,Casino,CPA,22,595,31.71,1824.82,400,0.35,638.69,True
+Operator E,Casino,CPA,23,388,44.41,1869.23,400,0.35,654.23,True
+Operator E,Casino,CPA,24,195,86.0,1955.22,400,0.35,684.33,True
+Operator F,Casino,Revenue share,1,3127,237.46,237.46,375,0.35,83.11,False
+Operator F,Casino,Revenue share,2,2993,209.44,446.9,375,0.35,156.41,False
+Operator F,Casino,Revenue share,3,2866,195.79,642.69,375,0.35,224.94,False
+Operator F,Casino,Revenue share,4,2749,173.05,815.74,375,0.35,285.51,False
+Operator F,Casino,Revenue share,5,2632,151.36,967.1,375,0.35,338.49,False
+Operator F,Casino,Revenue share,6,2514,126.16,1093.26,375,0.35,382.64,True
+Operator F,Casino,Revenue share,7,2362,122.09,1215.35,375,0.35,425.37,True
+Operator F,Casino,Revenue share,8,2208,113.03,1328.37,375,0.35,464.93,True
+Operator F,Casino,Revenue share,9,2050,103.44,1431.81,375,0.35,501.13,True
+Operator F,Casino,Revenue share,10,1915,88.57,1520.38,375,0.35,532.13,True
+Operator F,Casino,Revenue share,11,1780,80.64,1601.02,375,0.35,560.36,True
+Operator F,Casino,Revenue share,12,1653,85.06,1686.08,375,0.35,590.13,True
+Operator F,Casino,Revenue share,13,1521,73.45,1759.52,375,0.35,615.83,True
+Operator F,Casino,Revenue share,14,1399,58.66,1818.19,375,0.35,636.37,True
+Operator F,Casino,Revenue share,15,1270,78.22,1896.41,375,0.35,663.74,True
+Operator F,Casino,Revenue share,16,1154,56.91,1953.32,375,0.35,683.66,True
+Operator F,Casino,Revenue share,17,1014,53.03,2006.35,375,0.35,702.22,True
+Operator F,Casino,Revenue share,18,875,66.0,2072.35,375,0.35,725.32,True
+Operator F,Casino,Revenue share,19,746,50.85,2123.2,375,0.35,743.12,True
+Operator F,Casino,Revenue share,20,611,26.81,2150.01,375,0.35,752.5,True
+Operator F,Casino,Revenue share,21,473,24.84,2174.85,375,0.35,761.2,True
+Operator F,Casino,Revenue share,22,352,33.08,2207.93,375,0.35,772.78,True
+Operator F,Casino,Revenue share,23,242,17.29,2225.22,375,0.35,778.83,True
+Operator F,Casino,Revenue share,24,114,10.38,2235.6,375,0.35,782.46,True
+Operator G,Casino,Hybrid,1,1762,171.39,171.39,350,0.3,51.42,False
+Operator G,Casino,Hybrid,2,1681,149.53,320.92,350,0.3,96.28,False
+Operator G,Casino,Hybrid,3,1604,142.78,463.7,350,0.3,139.11,False
+Operator G,Casino,Hybrid,4,1538,126.5,590.2,350,0.3,177.06,False
+Operator G,Casino,Hybrid,5,1469,112.98,703.17,350,0.3,210.95,False
+Operator G,Casino,Hybrid,6,1417,89.64,792.81,350,0.3,237.84,False
+Operator G,Casino,Hybrid,7,1341,73.87,866.68,350,0.3,260.01,False
+Operator G,Casino,Hybrid,8,1259,79.13,945.82,350,0.3,283.75,False
+Operator G,Casino,Hybrid,9,1160,64.25,1010.07,350,0.3,303.02,False
+Operator G,Casino,Hybrid,10,1090,63.03,1073.1,350,0.3,321.93,False
+Operator G,Casino,Hybrid,11,1015,41.68,1114.78,350,0.3,334.43,False
+Operator G,Casino,Hybrid,12,937,47.8,1162.58,350,0.3,348.77,False
+Operator G,Casino,Hybrid,13,858,40.13,1202.71,350,0.3,360.81,True
+Operator G,Casino,Hybrid,14,773,32.56,1235.26,350,0.3,370.58,True
+Operator G,Casino,Hybrid,15,704,25.48,1260.74,350,0.3,378.22,True
+Operator G,Casino,Hybrid,16,652,18.82,1279.56,350,0.3,383.87,True
+Operator G,Casino,Hybrid,17,587,27.7,1307.26,350,0.3,392.18,True
+Operator G,Casino,Hybrid,18,522,26.05,1333.32,350,0.3,399.99,True
+Operator G,Casino,Hybrid,19,436,18.38,1351.7,350,0.3,405.51,True
+Operator G,Casino,Hybrid,20,363,13.54,1365.24,350,0.3,409.57,True
+Operator G,Casino,Hybrid,21,292,10.44,1375.68,350,0.3,412.7,True
+Operator G,Casino,Hybrid,22,214,10.37,1386.05,350,0.3,415.82,True
+Operator G,Casino,Hybrid,23,147,4.54,1390.6,350,0.3,417.18,True
+Operator G,Casino,Hybrid,24,68,12.41,1403.0,350,0.3,420.9,True

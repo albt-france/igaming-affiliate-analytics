@@ -1,0 +1,100 @@
+table 'Deal Curves'
+	lineageTag: d3247cec-ff51-5719-95ee-b0615a4383b9
+
+	column operator
+		dataType: string
+		lineageTag: f9155b04-971d-52c6-b00b-492f5b403791
+		summarizeBy: none
+		sourceColumn: operator
+
+	column vertical
+		dataType: string
+		lineageTag: 2e99aed5-f3fc-552d-9913-fee7bd57a1ef
+		summarizeBy: none
+		sourceColumn: vertical
+
+	column current_deal
+		dataType: string
+		lineageTag: 46c28f03-ecce-5a9d-896f-221177b7a227
+		summarizeBy: none
+		sourceColumn: current_deal
+
+	column month_n
+		dataType: int64
+		formatString: 0
+		lineageTag: 9e0f4e91-f6ad-5c4a-9655-a60b4b23d8af
+		summarizeBy: none
+		sourceColumn: month_n
+
+	column ndcs_observed
+		dataType: int64
+		formatString: #,0
+		lineageTag: ff1de18b-4f32-5486-9c70-107401de0e1b
+		summarizeBy: none
+		sourceColumn: ndcs_observed
+
+	column ngr_per_ndc_usd
+		dataType: double
+		formatString: $#,0.00
+		lineageTag: dc62d6b3-a043-55ef-a3d4-fd338a3cdb62
+		summarizeBy: none
+		sourceColumn: ngr_per_ndc_usd
+
+	column cum_ngr_per_ndc_usd
+		dataType: double
+		formatString: $#,0
+		lineageTag: be109017-e9fb-568c-9f14-d56357d84e2d
+		summarizeBy: none
+		sourceColumn: cum_ngr_per_ndc_usd
+
+	column cpa_offer_usd
+		dataType: double
+		formatString: $#,0
+		lineageTag: 51890132-d91a-5101-8a0d-cc11092c2b1b
+		summarizeBy: none
+		sourceColumn: cpa_offer_usd
+
+	column revshare_offer_pct
+		dataType: double
+		formatString: 0%
+		lineageTag: a5f807dd-8f93-5efc-b232-3cd1e9d0027c
+		summarizeBy: none
+		sourceColumn: revshare_offer_pct
+
+	column cum_revshare_per_ndc_usd
+		dataType: double
+		formatString: $#,0
+		lineageTag: 6e9bbb4f-4da0-5601-9665-3173b21ad711
+		summarizeBy: none
+		sourceColumn: cum_revshare_per_ndc_usd
+
+	column revshare_ahead
+		dataType: boolean
+		lineageTag: c20028b4-2bbb-5af8-8e96-739c14b31b4f
+		summarizeBy: none
+		sourceColumn: revshare_ahead
+
+	column disc_factor
+		dataType: double
+		formatString: 0.000
+		lineageTag: a3ed6353-2c7f-5e16-bc9f-5184e71ac72d
+		summarizeBy: none
+		sourceColumn: disc_factor
+
+	column disc_revshare_per_ndc_usd
+		dataType: double
+		formatString: $#,0
+		lineageTag: e2924693-2358-571d-bd4e-54f9058c6ed1
+		summarizeBy: none
+		sourceColumn: disc_revshare_per_ndc_usd
+
+	partition 'Deal Curves' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\page3_deal_curves.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"operator", type text}, {"vertical", type text}, {"current_deal", type text}, {"month_n", Int64.Type}, {"ndcs_observed", Int64.Type}, {"ngr_per_ndc_usd", type number}, {"cum_ngr_per_ndc_usd", type number}, {"cpa_offer_usd", type number}, {"revshare_offer_pct", type number}, {"cum_revshare_per_ndc_usd", type number}, {"revshare_ahead", type logical}, {"disc_factor", type number}, {"disc_revshare_per_ndc_usd", type number}}, "en-US")
+				in
+					Typed

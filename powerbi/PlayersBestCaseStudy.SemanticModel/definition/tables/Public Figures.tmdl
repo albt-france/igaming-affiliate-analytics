@@ -1,0 +1,56 @@
+table 'Public Figures'
+	lineageTag: ef600119-1ed5-5716-ab95-ecc1dd200158
+
+	column company
+		dataType: string
+		lineageTag: 37d91199-500c-590a-8920-ff0c14824547
+		summarizeBy: none
+		sourceColumn: company
+
+	column period
+		dataType: string
+		lineageTag: 9e42929e-848b-58ef-a527-d896f4d20d8b
+		summarizeBy: none
+		sourceColumn: period
+
+	column metric
+		dataType: string
+		lineageTag: 3192832b-ebf6-5efd-ae18-4c6b9bd35044
+		summarizeBy: none
+		sourceColumn: metric
+
+	column dimension
+		dataType: string
+		lineageTag: 97572d7b-8147-5021-87d1-9b75786f5dd0
+		summarizeBy: none
+		sourceColumn: dimension
+
+	column value
+		dataType: double
+		formatString: #,0.0
+		lineageTag: d37430af-76fb-514f-b8ba-9283a9a63cc2
+		summarizeBy: none
+		sourceColumn: value
+
+	column unit
+		dataType: string
+		lineageTag: cf46426a-cca9-5eea-9940-9cd7e3860909
+		summarizeBy: none
+		sourceColumn: unit
+
+	column source_id
+		dataType: string
+		lineageTag: c45d3ccc-99c9-51eb-8614-c86e1948735c
+		summarizeBy: none
+		sourceColumn: source_id
+
+	partition 'Public Figures' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "public\affiliates_public.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"company", type text}, {"period", type text}, {"metric", type text}, {"dimension", type text}, {"value", type number}, {"unit", type text}, {"source_id", type text}}, "en-US")
+				in
+					Typed

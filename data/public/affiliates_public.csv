@@ -1,0 +1,108 @@
+company,period,metric,dimension,value,unit,source_id
+Gambling.com Group,FY2023,revenue,total,108652,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,revenue,total,127182,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,revenue,total,165447,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2023,revenue_by_market,North America,60755,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,revenue_by_market,North America,55500,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,revenue_by_market,North America,87235,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2023,revenue_by_market,UK and Ireland,31347,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,revenue_by_market,UK and Ireland,39179,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,revenue_by_market,UK and Ireland,41660,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2023,revenue_by_market,Other Europe,10994,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,revenue_by_market,Other Europe,22463,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,revenue_by_market,Other Europe,26102,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2023,revenue_by_market,Rest of the world,5556,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,revenue_by_market,Rest of the world,10040,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,revenue_by_market,Rest of the world,10450,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2023,revenue_by_monetization,Performance marketing,87824,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,revenue_by_monetization,Performance marketing,101078,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,revenue_by_monetization,Performance marketing,103567,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2023,revenue_by_monetization,Subscription,7652,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,revenue_by_monetization,Subscription,8367,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,revenue_by_monetization,Subscription,41127,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2023,revenue_by_monetization,Advertising & other,13176,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,revenue_by_monetization,Advertising & other,17737,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,revenue_by_monetization,Advertising & other,20753,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2023,revenue_by_product,Casino,66869,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,revenue_by_product,Casino,92224,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,revenue_by_product,Casino,96545,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2023,revenue_by_product,Sports,41189,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,revenue_by_product,Sports,33888,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,revenue_by_product,Sports,65085,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2023,revenue_by_product,Other,594,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,revenue_by_product,Other,1070,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,revenue_by_product,Other,3817,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2023,perf_marketing_mix,CPA,58,% of performance marketing revenue,GAMB-20F-2025
+Gambling.com Group,FY2024,perf_marketing_mix,CPA,43,% of performance marketing revenue,GAMB-20F-2025
+Gambling.com Group,FY2025,perf_marketing_mix,CPA,37,% of performance marketing revenue,GAMB-20F-2025
+Gambling.com Group,FY2023,perf_marketing_mix,Revenue share,13,% of performance marketing revenue,GAMB-20F-2025
+Gambling.com Group,FY2024,perf_marketing_mix,Revenue share,23,% of performance marketing revenue,GAMB-20F-2025
+Gambling.com Group,FY2025,perf_marketing_mix,Revenue share,24,% of performance marketing revenue,GAMB-20F-2025
+Gambling.com Group,FY2023,perf_marketing_mix,Hybrid,29,% of performance marketing revenue,GAMB-20F-2025
+Gambling.com Group,FY2024,perf_marketing_mix,Hybrid,34,% of performance marketing revenue,GAMB-20F-2025
+Gambling.com Group,FY2025,perf_marketing_mix,Hybrid,37,% of performance marketing revenue,GAMB-20F-2025
+Gambling.com Group,FY2025,perf_marketing_mix,Ticketing,2,% of performance marketing revenue,GAMB-20F-2025
+Gambling.com Group,FY2024,new_customers_referred,total,479000,customers (more than),GAMB-20F-2025
+Gambling.com Group,FY2025,new_customers_referred,total,454000,customers (more than),GAMB-20F-2025
+Gambling.com Group,FY2023,adjusted_ebitda,total,36715,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2024,adjusted_ebitda,total,48691,USD thousands,GAMB-20F-2025
+Gambling.com Group,FY2025,adjusted_ebitda,total,58010,USD thousands,GAMB-20F-2025
+Better Collective,Q1-2025,revenue,total,83,EUR millions,BETCO-Q1-2025
+Better Collective,Q2-2025,revenue,total,82,EUR millions,BETCO-Q2-2025
+Better Collective,Q3-2025,revenue,total,78,EUR millions,BETCO-Q3-2025
+Better Collective,Q4-2025,revenue,total,94,EUR millions,BETCO-AR-2025
+Better Collective,Q1-2025,ndcs,total,316000,NDCs,BETCO-Q1-2025
+Better Collective,Q2-2025,ndcs,total,300000,NDCs,BETCO-Q2-2025
+Better Collective,Q3-2025,ndcs,total,279000,NDCs,BETCO-Q3-2025
+Better Collective,Q1-2025,ndc_share_revenue_share,total,80,% of NDCs,BETCO-Q1-2025
+Better Collective,Q2-2025,ndc_share_revenue_share,total,86,% of NDCs,BETCO-Q2-2025
+Better Collective,Q3-2025,ndc_share_revenue_share,total,81,% of NDCs,BETCO-Q3-2025
+Better Collective,Q1-2025,ebitda_before_special_items,total,22,EUR millions,BETCO-Q1-2025
+Better Collective,Q2-2025,ebitda_before_special_items,total,23,EUR millions,BETCO-Q2-2025
+Better Collective,Q3-2025,ebitda_before_special_items,total,21,EUR millions,BETCO-Q3-2025
+Better Collective,Q4-2025,ebitda_before_special_items,total,37,EUR millions,BETCO-AR-2025
+Better Collective,Q3-2025,value_of_deposits,total,726,EUR millions,BETCO-Q3-2025
+Better Collective,Q4-2025,value_of_deposits,total,820,EUR millions,BETCO-WEBCAST-2025
+Better Collective,FY2025,north_america_revenue_share,total,17,EUR millions,BETCO-WEBCAST-2025
+Catena Media,FY2024,revenue,total,49.6,EUR millions,CTM-YE-2025
+Catena Media,FY2025,revenue,total,46.6,EUR millions,CTM-YE-2025
+Catena Media,FY2024,revenue_by_market,North America,43.9,EUR millions,CTM-YE-2025
+Catena Media,FY2025,revenue_by_market,North America,43.8,EUR millions,CTM-YE-2025
+Catena Media,FY2024,ndcs,total,128700,NDCs,CTM-YE-2025
+Catena Media,FY2025,ndcs,total,106510,NDCs,CTM-YE-2025
+Catena Media,FY2024,adjusted_ebitda,total,5.4,EUR millions,CTM-YE-2025
+Catena Media,FY2025,adjusted_ebitda,total,9.9,EUR millions,CTM-YE-2025
+Better Collective,Q4-2025,ndcs,total,305000,NDCs,BETCO-AR-2025-PDF
+Better Collective,Q4-2025,ndc_share_revenue_share,total,73,% of NDCs,BETCO-AR-2025-PDF
+Better Collective,Q4-2024,ndcs,total,407000,NDCs,BETCO-AR-2025-PDF
+Better Collective,FY2021,ndcs,total,858000,NDCs,BETCO-AR-2025-PDF
+Better Collective,FY2022,ndcs,total,1683000,NDCs,BETCO-AR-2025-PDF
+Better Collective,FY2023,ndcs,total,1916000,NDCs,BETCO-AR-2025-PDF
+Better Collective,FY2024,ndcs,total,1754000,NDCs,BETCO-AR-2025-PDF
+Better Collective,FY2025,ndcs,total,1200000,NDCs,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue,total,371487,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue,total,336669,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,Europe & RoW | Revenue Share,135175,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,Europe & RoW | Revenue Share,159671,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,Europe & RoW | CPA,59463,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,Europe & RoW | CPA,53858,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,Europe & RoW | Subscription,3493,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,Europe & RoW | Subscription,2787,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,Europe & RoW | Sponsorships,23065,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,Europe & RoW | Sponsorships,23751,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,Europe & RoW | CPM,21227,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,Europe & RoW | CPM,23250,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,Europe & RoW | Other,1110,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,Europe & RoW | Other,822,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,North America | Revenue Share,22309,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,North America | Revenue Share,20612,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,North America | CPA,20577,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,North America | CPA,38465,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,North America | Subscription,14538,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,North America | Subscription,15539,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,North America | Sponsorships,25716,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,North America | Sponsorships,23576,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,North America | CPM,9742,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,North America | CPM,8877,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2025,revenue_by_region_type,North America | Other,253,EUR thousands,BETCO-AR-2025-PDF
+Better Collective,FY2024,revenue_by_region_type,North America | Other,281,EUR thousands,BETCO-AR-2025-PDF

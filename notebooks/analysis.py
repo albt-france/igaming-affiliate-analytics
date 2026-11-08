@@ -1,0 +1,495 @@
+# %% [markdown]
+# # US sports-betting affiliate analytics - a case study for PLAYERSBEST
+#
+# Independent case study, not affiliated with PLAYERSBEST (formerly Growth Leads).
+# One business question per section. Data labels:
+# **PUBLIC** (company filings, see `SOURCES.md`), **PUBLIC DATASET** (`ab_data.csv`),
+# **SIMULATED** (`src/simulate.py`, seed 2026, fictional operators A-G).
+#
+# Run `src/simulate.py` and `src/run_sql.py` first: this notebook reads `data/output/`.
+
+# %%
+from pathlib import Path
+import os
+import numpy as np
+import pandas as pd
+import duckdb
+import statsmodels.api as sm
+from statsmodels.stats.proportion import proportions_ztest, confint_proportions_2indep
+from statsmodels.stats.power import NormalIndPower
+from statsmodels.stats.proportion import proportion_effectsize
+
+ROOT = Path.cwd().parent if Path.cwd().name == "notebooks" else Path.cwd()
+os.chdir(ROOT)
+OUT = ROOT / "data" / "output"
+rng = np.random.default_rng(7)
+pd.set_option("display.width", 160)
+pd.set_option("display.max_columns", 20)
+con = duckdb.connect()
+
+# %% [markdown]
+# ## 1. How do listed affiliates make money? (PUBLIC)
+# Gambling.com Group (US + Europe), Better Collective (Europe-led, growing in North America) and
+# Catena Media (North America-led). Figures exactly as filed; derived ratios are computed below.
+
+# %%
+pub = pd.read_csv("data/public/affiliates_public.csv")
+
+def val(company, period, metric, dimension="total"):
+    r = pub[(pub.company == company) & (pub.period == period) & (pub.metric == metric) & (pub.dimension == dimension)]
+    assert len(r) == 1, (company, period, metric, dimension)
+    return float(r.value.iloc[0])
+
+g = "Gambling.com Group"
+gamb = pd.DataFrame({
+    "year": ["FY2023", "FY2024", "FY2025"],
+    "revenue_usd_m": [val(g, y, "revenue") / 1000 for y in ["FY2023", "FY2024", "FY2025"]],
+    "north_america_share": [val(g, y, "revenue_by_market", "North America") / val(g, y, "revenue") for y in ["FY2023", "FY2024", "FY2025"]],
+    "cpa_share_of_perf_mkt": [val(g, y, "perf_marketing_mix", "CPA") / 100 for y in ["FY2023", "FY2024", "FY2025"]],
+    "recurring_share_of_perf_mkt": [(val(g, y, "perf_marketing_mix", "Revenue share") + val(g, y, "perf_marketing_mix", "Hybrid")) / 100
+                                    for y in ["FY2023", "FY2024", "FY2025"]],
+})
+# performance-marketing revenue per referred customer ("more than" N customers, so an upper bound)
+gamb["perf_rev_per_customer_usd"] = [np.nan] + [
+    val(g, y, "revenue_by_monetization", "Performance marketing") * 1000 / val(g, y, "new_customers_referred")
+    for y in ["FY2024", "FY2025"]]
+print(gamb.round(3).to_string(index=False))
+
+b = "Better Collective"
+bc = pd.DataFrame([
+    dict(year=y, region=r,
+         revshare_share=val(b, y, "revenue_by_region_type", f"{r} | Revenue Share")
+         / sum(val(b, y, "revenue_by_region_type", f"{r} | {t}") for t in ["Revenue Share", "CPA", "Subscription", "Sponsorships", "CPM", "Other"]),
+         cpa_eur_m=val(b, y, "revenue_by_region_type", f"{r} | CPA") / 1000)
+    for y in ["FY2024", "FY2025"] for r in ["Europe & RoW", "North America"]])
+bc_rev_per_ndc = {y: val(b, y, "revenue") * 1000 / val(b, y, "ndcs") for y in ["FY2024", "FY2025"]}
+print(bc.round(3).to_string(index=False))
+print("Better Collective revenue per NDC (EUR):", {k: round(v) for k, v in bc_rev_per_ndc.items()})
+c = "Catena Media"
+ctm_rev_per_ndc = {y: val(c, y, "revenue") * 1e6 / val(c, y, "ndcs") for y in ["FY2024", "FY2025"]}
+print("Catena Media revenue per NDC (EUR):", {k: round(v) for k, v in ctm_rev_per_ndc.items()})
+
+page1 = pd.concat([
+    gamb.melt(id_vars="year", var_name="kpi").assign(company=g),
+    bc.melt(id_vars=["year", "region"], var_name="kpi").assign(company=b),
+    pd.DataFrame([dict(company=b, year=y, kpi="revenue_per_ndc_eur", value=v) for y, v in bc_rev_per_ndc.items()]),
+    pd.DataFrame([dict(company=c, year=y, kpi="revenue_per_ndc_eur", value=v) for y, v in ctm_rev_per_ndc.items()]),
+], ignore_index=True)
+page1.to_csv(OUT / "page1_public_kpis.csv", index=False)
+
+# %% [markdown]
+# **Reading.** At Gambling.com Group, CPA fell from 58% to 37% of performance-marketing revenue
+# in two years while revenue share + hybrid rose to 61%. Better Collective earns 55% of European revenue
+# from revenue share but only 24% in North America, where it is moving CPA deals to revenue share
+# (North America CPA revenue roughly halved in 2025). Revenue per NDC rose at Better Collective
+# as NDC volumes fell ("fewer but higher-value customers").
+# Caveat: Gambling.com's mix is a share of revenue; Better Collective's quarterly 73-86% is a share of NDCs.
+
+# %% [markdown]
+# ## 2. Which channels and content pages bring NDCs, at what EPC? (SIMULATED)
+# NDC cohorts Sep 2024 - Aug 2025, each valued on its first 12 months under the operator's current deal.
+
+# %%
+epc = pd.read_csv(OUT / "01_channel_page_epc.csv")
+by_channel = epc.groupby("channel")[["sessions", "clickouts", "ndcs", "revenue_12m_usd", "spend_usd"]].sum()
+by_channel["clickout_rate"] = by_channel.clickouts / by_channel.sessions
+by_channel["ndc_per_clickout"] = by_channel.ndcs / by_channel.clickouts
+by_channel["epc_usd"] = by_channel.revenue_12m_usd / by_channel.clickouts
+by_channel["revenue_per_ndc_usd"] = by_channel.revenue_12m_usd / by_channel.ndcs
+by_channel["roi"] = np.where(by_channel.spend_usd > 0,
+                             (by_channel.revenue_12m_usd - by_channel.spend_usd) / by_channel.spend_usd.replace(0, np.nan), np.nan)
+by_page = epc.groupby("page_type")[["sessions", "clickouts", "ndcs", "revenue_12m_usd"]].sum()
+by_page["clickout_rate"] = by_page.clickouts / by_page.sessions
+by_page["epc_usd"] = by_page.revenue_12m_usd / by_page.clickouts
+by_page["revenue_per_session_usd"] = by_page.revenue_12m_usd / by_page.sessions
+print(by_channel.sort_values("revenue_12m_usd", ascending=False).round(3))
+print(by_page.sort_values("revenue_per_session_usd", ascending=False).round(3))
+
+# cost of the bot-click episode (anomaly 1): paid clicks bought on 20-22 Oct 2025 in IL paid search
+bot_cost = con.sql("""
+    SELECT SUM(spend_usd) FROM 'data/simulated/sim_marketing_cost_daily.csv'
+    WHERE channel = 'Paid search' AND state = 'IL' AND vertical = 'Sportsbook'
+      AND date BETWEEN DATE '2025-10-20' AND DATE '2025-10-22'""").fetchone()[0]
+normal_cost = con.sql("""
+    SELECT AVG(daily) * 3 FROM (SELECT date, SUM(spend_usd) daily FROM 'data/simulated/sim_marketing_cost_daily.csv'
+    WHERE channel = 'Paid search' AND state = 'IL' AND vertical = 'Sportsbook'
+      AND date BETWEEN DATE '2025-10-06' AND DATE '2025-10-19' GROUP BY date)""").fetchone()[0]
+print(f"Bot episode: paid search IL spend over 3 days ${bot_cost:,.0f} vs ~${normal_cost:,.0f} normally")
+
+by_channel.reset_index().to_csv(OUT / "page2_channels.csv", index=False)
+by_page.reset_index().to_csv(OUT / "page2_pages.csv", index=False)
+
+# %% [markdown]
+# **Reading.** EPC differs by channel (email highest, social lowest) because player quality differs.
+# By page, EPC is almost flat: once a visitor clicks out, pages convert alike. What differs is the
+# click-out rate, so revenue per session is ~7x higher on bonus-code pages than on news pages.
+# Paid search barely covers its cost at a 12-month horizon; social is cheaper per click and doubles its money.
+
+# %% [markdown]
+# ## 3. CPA or revenue share: which deal is worth more, and when does revenue share overtake CPA? (SIMULATED)
+# Censoring-safe curve from `sql/02_deal_breakeven.sql`. Added here: a 10%/year discount rate
+# (cash today is worth more than revenue share in 18 months) and a bootstrap 90% interval on the breakeven month.
+
+# %%
+be = pd.read_csv(OUT / "02_deal_breakeven.csv")
+monthly_rate = 1.10 ** (1 / 12) - 1
+be["disc_factor"] = 1 / (1 + monthly_rate) ** (be.month_n - 1)
+be["disc_revshare_per_ndc_usd"] = (be.revshare_offer_pct * be.ngr_per_ndc_usd * be.disc_factor).groupby(be.operator).cumsum()
+
+def first_month(mask, months):
+    m = months[mask]
+    return int(m.iloc[0]) if len(m) else None
+
+# player-level matrix for the bootstrap
+pl = pd.read_csv("data/simulated/sim_ndc_players.csv", parse_dates=["ftd_date"])
+ngr = pd.read_csv("data/simulated/sim_ndc_monthly_ngr.csv")
+mat = np.zeros((len(pl), 24))
+mat[ngr.ndc_id.values - 1, ngr.month_n.values - 1] = ngr.ngr_usd.values
+ftd_m = pl.ftd_date.dt.year * 12 + pl.ftd_date.dt.month - 1
+last_m = 2026 * 12 + 8 - 1
+elig = (ftd_m.values[:, None] + np.arange(24)[None, :]) <= last_m
+deals = pd.read_csv("data/simulated/sim_operator_deals.csv").set_index("operator")
+
+def breakeven_month(rows, rs, cpa):
+    e, m = elig[rows], mat[rows]
+    curve = np.cumsum((m * e).sum(0) / np.maximum(e.sum(0), 1)) * rs
+    hit = np.nonzero(curve >= cpa)[0]
+    return hit[0] + 1 if len(hit) else 99           # 99 = not within 24 months
+
+summary = []
+for op, gop in be.groupby("operator"):
+    d = deals.loc[op]
+    rows = np.nonzero(pl.operator.values == op)[0]
+    boots = np.array([breakeven_month(rng.choice(rows, len(rows)), d.revshare_offer_pct, d.cpa_offer_usd) for _ in range(300)])
+    lo, hi = np.percentile(boots, [5, 95])
+    m24 = gop[gop.month_n == 24].iloc[0]
+    summary.append(dict(
+        operator=op, vertical=d.vertical, current_deal=d.current_deal, cpa_offer_usd=d.cpa_offer_usd,
+        revshare_offer_pct=d.revshare_offer_pct, ndcs=len(rows),
+        breakeven_month=first_month(gop.revshare_ahead, gop.month_n),
+        breakeven_month_discounted=first_month(gop.disc_revshare_per_ndc_usd >= gop.cpa_offer_usd, gop.month_n),
+        breakeven_p5=None if lo == 99 else int(lo), breakeven_p95=None if hi == 99 else int(hi),
+        share_of_boot_never=float((boots == 99).mean()),
+        revshare_24m_usd=round(m24.cum_revshare_per_ndc_usd, 0),
+        revshare_24m_disc_usd=round(m24.disc_revshare_per_ndc_usd, 0),
+        ndcs_observed_m24=int(m24.ndcs_observed),
+        better_deal="Revenue share" if m24.disc_revshare_per_ndc_usd > d.cpa_offer_usd else "CPA",
+    ))
+deal_summary = pd.DataFrame(summary)
+print(deal_summary.to_string(index=False))
+be.to_csv(OUT / "page3_deal_curves.csv", index=False)
+deal_summary.to_csv(OUT / "page3_deal_summary.csv", index=False)
+
+# %% [markdown]
+# **Reading.** Sportsbook players churn fast and have losing months, so 24-month revenue share never
+# reaches the CPA offer: take CPA (Operator B, on revenue share today, would earn about the same with
+# CPA but get it upfront). Casino players are worth more and stay longer: revenue share overtakes CPA
+# within 6-13 months and is worth far more after 24 months, even discounted. Month-24 estimates rest on
+# early cohorts only (few hundred NDCs for casino), hence the bootstrap interval.
+
+# %% [markdown]
+# ## 4. Does the new landing page lift conversion, and is it significant? (PUBLIC DATASET)
+# `ab_data.csv`, cleaned in `sql/04_ab_test_clean.sql` (3,893 rows with a group/page mismatch and
+# 1 duplicate user removed, 290,584 users). Two-sided z-test, bootstrap, power analysis and a peeking simulation.
+
+# %%
+ab = pd.read_csv(OUT / "04_ab_test_clean.csv", parse_dates=["ts"])
+grp = ab.groupby("group_name").converted.agg(["sum", "count"])
+conv_c, n_c = grp.loc["control"]
+conv_t, n_t = grp.loc["treatment"]
+p_c, p_t = conv_c / n_c, conv_t / n_t
+z, p_two = proportions_ztest([conv_t, conv_c], [n_t, n_c], alternative="two-sided")
+_, p_one = proportions_ztest([conv_t, conv_c], [n_t, n_c], alternative="larger")
+ci_lo, ci_hi = confint_proportions_2indep(conv_t, n_t, conv_c, n_c, method="wald")
+boot = rng.binomial(n_t, p_t, 20000) / n_t - rng.binomial(n_c, p_c, 20000) / n_c
+power = NormalIndPower()
+mde_n = power.solve_power(effect_size=None, nobs1=n_c, alpha=0.05, power=0.8, ratio=n_t / n_c)
+# translate the detectable effect size (Cohen's h) back into percentage points around p_c
+mde_pts = np.sin(np.arcsin(np.sqrt(p_c)) + mde_n / 2) ** 2 - p_c
+need_n = power.solve_power(effect_size=proportion_effectsize(p_c + 0.005, p_c), alpha=0.05, power=0.8, ratio=1)
+ab_summary = pd.DataFrame([dict(
+    users_control=int(n_c), users_treatment=int(n_t), conv_control=p_c, conv_treatment=p_t,
+    diff_pts=(p_t - p_c) * 100, rel_lift=(p_t - p_c) / p_c, z=z, p_two_sided=p_two, p_one_sided_new_better=p_one,
+    ci95_lo_pts=ci_lo * 100, ci95_hi_pts=ci_hi * 100, boot_share_new_better=(boot > 0).mean(),
+    mde_pts_at_80pct_power=mde_pts * 100, users_per_group_for_0_5pt_lift=int(np.ceil(need_n)),
+    days=ab.ts.dt.date.nunique())])
+print(ab_summary.T.round(4))
+
+# daily cumulative view: what someone peeking each day would have seen
+ab["day"] = ab.ts.dt.floor("D")
+daily = ab.pivot_table(index="day", columns="group_name", values="converted", aggfunc=["sum", "count"])
+cum = daily.cumsum()
+cs, cn = cum["sum"], cum["count"]
+pc, pt = cs.control / cn.control, cs.treatment / cn.treatment
+pool = (cs.control + cs.treatment) / (cn.control + cn.treatment)
+z_day = (pt - pc) / np.sqrt(pool * (1 - pool) * (1 / cn.control + 1 / cn.treatment))
+ab_daily = pd.DataFrame({"day": cum.index, "cum_conv_control": pc.values, "cum_conv_treatment": pt.values,
+                         "cum_users": (cn.control + cn.treatment).values, "cum_z": z_day.values})
+
+# A/A simulation: same daily traffic, no true difference. How often does daily peeking find "significance"?
+days = len(daily)
+per_day = int((n_c + n_t) / 2 / days)
+sims = 4000
+a = rng.binomial(per_day, p_c, (sims, days)).cumsum(1)
+bb = rng.binomial(per_day, p_c, (sims, days)).cumsum(1)
+n_cum = per_day * np.arange(1, days + 1)
+pooled = (a + bb) / (2 * n_cum)
+zz = (a - bb) / n_cum / np.sqrt(pooled * (1 - pooled) * 2 / n_cum)
+fpr_single = (np.abs(zz[:, -1]) > 1.96).mean()
+fpr_peek = (np.abs(zz) > 1.96).any(1).mean()
+ab_summary["false_positive_single_look"] = fpr_single
+ab_summary["false_positive_daily_peeking"] = fpr_peek
+print(f"A/A false-positive rate: one look at the end {fpr_single:.1%}, peeking daily {fpr_peek:.1%}")
+ab_summary.to_csv(OUT / "page4_ab_summary.csv", index=False)
+s = ab_summary.iloc[0]
+ab_stats = pd.DataFrame([
+    ("Users (control / new page)", f"{s.users_control:,.0f} / {s.users_treatment:,.0f}"),
+    ("Conversion (control / new page)", f"{s.conv_control:.2%} / {s.conv_treatment:.2%}"),
+    ("Difference (new - control)", f"{s.diff_pts:+.2f} pts ({s.rel_lift:+.1%})"),
+    ("95% confidence interval", f"{s.ci95_lo_pts:+.2f} to {s.ci95_hi_pts:+.2f} pts"),
+    ("z / p-value (two-sided)", f"{s.z:.2f} / {s.p_two_sided:.3f}"),
+    ("Bootstrap: share of resamples where new page wins", f"{s.boot_share_new_better:.1%}"),
+    ("Smallest detectable effect (80% power)", f"+/-{s.mde_pts_at_80pct_power:.2f} pts"),
+    ("Users per group to detect +0.5 pts", f"{s.users_per_group_for_0_5pt_lift:,.0f}"),
+    ("False positives, one look at the end (A/A simulation)", f"{s.false_positive_single_look:.1%}"),
+    ("False positives, peeking every day (A/A simulation)", f"{s.false_positive_daily_peeking:.1%}"),
+], columns=["statistic", "value"]).rename_axis("sort_order").reset_index()
+ab_stats.to_csv(OUT / "page4_ab_stats.csv", index=False)
+ab_daily.to_csv(OUT / "page4_ab_daily.csv", index=False)
+
+# %% [markdown]
+# **Reading.** The new page converts slightly *worse* (11.88% vs 12.04%, -0.16 pts, p = 0.19):
+# no evidence of a lift, so keep the old page. With ~145k users per group the test could detect
+# about +/-0.34 pts; a +0.5 pt lift needs ~68k users per group, so the test was large enough.
+# Peeking every day and stopping at the first p < 0.05 would raise the false-positive rate from 5%
+# to about 26%: fix the sample size in advance (or use a sequential test).
+
+# %% [markdown]
+# ## 5. Flag anomalies, then forecast traffic and NDCs with US sports seasonality (SIMULATED)
+# Three anomalies were injected (bot clicks, a broken postback, an SEO algorithm update; see
+# `data/simulated/sim_anomaly_log.csv`). The detection rules below never read that log: it is only used
+# afterwards to score them. Each rule watches a **ratio**, not a volume, because volumes swing 3x with the
+# sports calendar (Super Bowl, NFL Sundays) while ratios stay stable.
+
+# %%
+def robust_z(series, window=28):
+    """z-score against the trailing median and MAD of the previous `window` days."""
+    med = series.shift(1).rolling(window, min_periods=14).median()
+    mad = (series.shift(1) - med).abs().rolling(window, min_periods=14).median()
+    return (series - med) / (1.4826 * mad.replace(0, np.nan)), med
+
+# Rule 1 - click quality: the bot signature is MORE click-outs and FEWER registrations per click-out
+ch_daily = con.sql("""
+    SELECT date, channel, SUM(clickouts) AS clickouts, SUM(registrations) AS registrations
+    FROM 'data/simulated/sim_operator_daily.csv' GROUP BY ALL ORDER BY channel, date""").df()
+r1 = []
+for chn, gch in ch_daily.groupby("channel"):
+    s = (gch.registrations / gch.clickouts).set_axis(gch.date)
+    z, med = robust_z(s)
+    z_clicks, _ = robust_z(gch.clickouts.set_axis(gch.date).astype(float))
+    r1.append(pd.DataFrame({"date": gch.date.values, "rule": "1 Click quality", "segment": chn,
+                            "value": s.values, "baseline": med.values, "z": z.values,
+                            "flagged": ((z < -5) & (z_clicks > 5)).values}))
+r1 = pd.concat(r1)
+
+# Rule 2 - tracking: NDCs we tracked vs NDCs the operator reports, by operator
+op_daily = con.sql("""
+    WITH t AS (SELECT date, operator, SUM(ndcs_tracked) AS tracked FROM 'data/simulated/sim_operator_daily.csv' GROUP BY ALL),
+         r AS (SELECT ftd_date AS date, operator, COUNT(*) AS reported FROM 'data/simulated/sim_ndc_players.csv' GROUP BY ALL)
+    SELECT r.date, r.operator, COALESCE(t.tracked, 0) AS tracked, r.reported
+    FROM r LEFT JOIN t USING (date, operator) ORDER BY operator, date""").df()
+r2 = pd.DataFrame({"date": op_daily.date, "rule": "2 Tracking", "segment": op_daily.operator,
+                   "value": op_daily.tracked / op_daily.reported, "baseline": 1.0, "z": np.nan})
+r2["flagged"] = (op_daily.reported >= 10).values & (r2.value < 0.8).values
+
+# Rule 3 - level shift: SEO share of sessions, 7-day median vs the previous 91 days.
+# The median ignores one-day email blasts; days already flagged for bot traffic are left out,
+# because bot sessions inflate paid traffic and would mechanically lower the SEO share.
+share = con.sql("""
+    SELECT date, SUM(sessions) FILTER (WHERE channel = 'SEO') / SUM(sessions) AS seo_share
+    FROM 'data/simulated/sim_traffic_daily.csv' GROUP BY date ORDER BY date""").df().set_index("date").seo_share
+share[share.index.isin(r1[r1.flagged].date)] = np.nan
+m7 = share.rolling(7, min_periods=4).median()
+base_mean = share.shift(7).rolling(91, min_periods=60).mean()
+base_std = share.shift(7).rolling(91, min_periods=60).std()
+z3 = (m7 - base_mean) / (base_std / np.sqrt(7))
+r3 = pd.DataFrame({"date": share.index, "rule": "3 Level shift", "segment": "SEO",
+                   "value": m7.values, "baseline": base_mean.values, "z": z3.values})
+r3["flagged"] = r3.z < -4
+
+# Naive alternative: robust z-score on total daily sessions (volume, not ratio)
+vol = con.sql("SELECT date, SUM(sessions) AS sessions FROM 'data/simulated/sim_traffic_daily.csv' GROUP BY date ORDER BY date").df()
+zv, medv = robust_z(vol.set_index("date").sessions)
+naive_flags = zv[zv.abs() > 5]
+print(f"Naive volume rule flags {len(naive_flags)} days, e.g.:", [d.strftime("%Y-%m-%d") for d in naive_flags.index[:8]])
+
+flags = pd.concat([r1, r2, r3], ignore_index=True)
+flags["date"] = pd.to_datetime(flags.date)
+log = pd.read_csv("data/simulated/sim_anomaly_log.csv", parse_dates=["start", "end"])
+rule_of = {"Bot clicks": "1 Click quality", "Broken tracking": "2 Tracking", "Level shift": "3 Level shift"}
+flags["in_true_window"] = False
+for _, a in log.iterrows():
+    flags.loc[(flags.rule == rule_of[a.type]) & flags.date.between(a.start, a.end), "in_true_window"] = True
+
+score = []
+for _, a in log.iterrows():
+    f = flags[(flags.rule == rule_of[a.type]) & flags.flagged]
+    hit = f[f.in_true_window]
+    score.append(dict(anomaly=a.type, start=a.start.date(), detected=len(hit) > 0,
+                      first_flag=hit.date.min().date() if len(hit) else None,
+                      lag_days=(hit.date.min() - a.start).days if len(hit) else None,
+                      flagged_segments=", ".join(sorted(hit.segment.unique())),
+                      false_positive_days=int(f[~f.in_true_window].date.nunique())))
+score = pd.DataFrame(score)
+print(score.to_string(index=False))
+flags.to_csv(OUT / "page5_anomaly_flags.csv", index=False)
+score.to_csv(OUT / "page5_anomaly_score.csv", index=False)
+
+# %% [markdown]
+# **Reading.** Each ratio rule catches its anomaly within days, with few or no false alarms. The volume
+# rule mostly flags the Super Bowl and NFL playoff Sundays: real demand, not errors. The bot episode
+# also cost money: the paid clicks bought for bots show up in section 2.
+
+# %% [markdown]
+# ### Forecast
+# Log-linear regression on the sports calendar (NFL regular season, playoffs, Super Bowl week and day,
+# March Madness, kick-off promotions, weekday x NFL interactions) plus trend; casino uses weekday +
+# annual seasonality. Days flagged by rule 1 are removed from training.
+# **Back-test:** train on Sep 2024 - Aug 2025, forecast the 2025-26 NFL season (Sep 2025 - Feb 2026)
+# for existing states (Missouri launched in Dec 2025 and has no history in the training window).
+# **Forecast:** retrain on everything, with Missouri and the SEO update as known level changes, and
+# forecast the 2026-27 season. The 2026-27 NFL dates are the published schedule as assumed here.
+
+# %%
+START = pd.Timestamp("2024-09-01")
+NFL = [("2024-09-05", "2025-01-05", "2025-01-11", "2025-01-26", "2025-02-09"),
+       ("2025-09-04", "2026-01-04", "2026-01-10", "2026-01-25", "2026-02-08"),
+       ("2026-09-10", "2027-01-10", "2027-01-16", "2027-01-31", "2027-02-14")]
+MARCH_MADNESS = [("2025-03-18", "2025-04-07"), ("2026-03-17", "2026-04-06")]
+
+def features(dates, vertical, mo=False, seo=False):
+    dates = pd.DatetimeIndex(dates)
+    X = pd.DataFrame(index=dates)
+    X["const"] = 1.0
+    X["trend"] = (dates - START).days / 365
+    dow = dates.dayofweek
+    for k in range(1, 7):
+        X[f"dow{k}"] = dow == k
+    if vertical == "Sportsbook":
+        reg = po = sbw = sbd = kick = mm = mmw = np.zeros(len(dates), bool)
+        for rs, re_, ps, pe, sb in NFL:
+            sb = pd.Timestamp(sb)
+            reg = reg | ((dates >= rs) & (dates <= re_))
+            po = po | ((dates >= ps) & (dates <= pe))
+            sbw = sbw | ((dates >= sb - pd.Timedelta(days=6)) & (dates < sb))
+            sbd = sbd | (dates == sb)
+            kick = kick | ((dates >= rs) & (dates <= pd.Timestamp(rs) + pd.Timedelta(days=13)))
+        for a, b_ in MARCH_MADNESS:
+            w0 = pd.Timestamp(a) + pd.Timedelta(days=2)
+            mm = mm | ((dates >= a) & (dates <= b_))
+            mmw = mmw | ((dates >= w0) & (dates <= w0 + pd.Timedelta(days=3)))
+        X["nfl_regular"], X["nfl_playoffs"], X["sb_week"], X["sb_day"] = reg, po, sbw, sbd
+        X["kickoff_promo"], X["march_madness"], X["mm_first_weekend"] = kick, mm, mmw
+        X["spring"] = (dates.month >= 4) & (dates.month <= 6) & ~mm
+        X["feb_mar"] = (dates.month >= 2) & (dates.month <= 3) & ~(reg | po | sbw | sbd | mm)
+        nfl_any = reg | po
+        for k, name in [(6, "sun"), (0, "mon"), (3, "thu"), (5, "sat")]:
+            X[f"nfl_x_{name}"] = nfl_any & (dow == k)
+    else:
+        X["cos_year"] = np.cos(2 * np.pi * dates.dayofyear / 365.25)
+        X["sin_year"] = np.sin(2 * np.pi * dates.dayofyear / 365.25)
+    if mo:
+        X["missouri_live"] = dates >= "2025-12-01"
+    if seo:
+        X["seo_update"] = dates >= "2026-03-15"
+    return X.astype(float)
+
+bot_days = set(flags[(flags.rule == "1 Click quality") & flags.flagged].date)
+
+def fit_forecast(train, pred_dates, vertical, target, mo=False, seo=False):
+    """Quasi-Poisson GLM (log link): suits daily counts, small (casino NDCs ~13/day) or large (sessions).
+    80% interval = parameter uncertainty + over-dispersed Poisson noise (normal approximation)."""
+    train = train[~train.date.isin(bot_days)]
+    X = features(train.date, vertical, mo, seo)
+    model = sm.GLM(train[target].values, X, family=sm.families.Poisson()).fit(scale="X2")
+    Xp = features(pred_dates, vertical, mo, seo)
+    mu = model.predict(Xp)
+    se_eta = np.sqrt(np.einsum("ij,jk,ik->i", Xp.values, model.cov_params().values, Xp.values))
+    sd = np.sqrt(model.scale * mu + (mu * se_eta) ** 2)
+    return model, pd.DataFrame({"date": pd.DatetimeIndex(pred_dates), "forecast": mu.values,
+                                "lo80": np.maximum(mu.values - 1.2816 * sd.values, 0),
+                                "hi80": mu.values + 1.2816 * sd.values})
+
+kpi = pd.read_csv(OUT / "03_daily_kpis.csv", parse_dates=["date"])
+existing = kpi[kpi.state_group == "Existing states"]
+total = kpi.groupby(["date", "vertical"], as_index=False)[["sessions", "ndcs_reported"]].sum()
+
+def two_stage(sess_fc, history):
+    """NDCs = forecast sessions x NDC-per-session rate of the last 365 days of history.
+    Interval adds the sessions interval and Poisson noise on the NDC count."""
+    h = history[history.date > history.date.max() - pd.Timedelta(days=365)]
+    rate = h.ndcs_reported.sum() / h.sessions.sum()
+    mu = sess_fc.forecast * rate
+    sd_sess = (sess_fc.hi80 - sess_fc.forecast) / 1.2816
+    sd = np.sqrt((rate * sd_sess) ** 2 + mu)
+    return sess_fc.assign(forecast=mu, lo80=np.maximum(mu - 1.2816 * sd, 0), hi80=mu + 1.2816 * sd)
+
+def score_bt(bt, vertical, metric, method):
+    wk = bt.set_index("date")[["actual", "forecast"]].resample("W").sum()
+    return dict(vertical=vertical, metric=metric, method=method,
+                mape_daily=(abs(bt.forecast - bt.actual) / bt.actual).mean(),
+                mape_weekly=(abs(wk.forecast - wk.actual) / wk.actual).mean(),
+                season_error=bt.forecast.sum() / bt.actual.sum() - 1,
+                coverage_80=((bt.actual >= bt.lo80) & (bt.actual <= bt.hi80)).mean())
+
+rows, backtest = [], []
+future = pd.date_range("2026-08-31", "2027-02-28", freq="D")   # starts on a Monday so weekly totals are complete
+for vertical in ["Sportsbook", "Casino"]:
+    # back-test: train Sep 2024 - Aug 2025, test Sep 2025 - Feb 2026, existing states only
+    ser = existing[existing.vertical == vertical]
+    train = ser[(ser.date <= "2025-08-31") & ~ser.date.isin(bot_days)]
+    test = ser[(ser.date >= "2025-09-01") & (ser.date <= "2026-03-01") & ~ser.date.isin(bot_days)]   # Mon 1 Sep - Sun 1 Mar: whole weeks
+    _, s_fc = fit_forecast(train, test.date, vertical, "sessions")
+    _, d_fc = fit_forecast(train, test.date, vertical, "ndcs_reported")
+    n_fc = two_stage(s_fc, train)
+    for metric, fc, method, col in [("sessions", s_fc, "Calendar GLM", "sessions"),
+                                    ("ndcs_reported", d_fc, "Direct GLM", "ndcs_reported"),
+                                    ("ndcs_reported", n_fc, "Sessions x conversion", "ndcs_reported")]:
+        bt = fc.merge(test[["date", col]].rename(columns={col: "actual"}), on="date")
+        backtest.append(score_bt(bt, vertical, metric, method))
+        if method != "Direct GLM":
+            rows.append(bt.assign(vertical=vertical, metric=metric, phase="Back-test (existing states)"))
+    # final forecast: all states, all history, Missouri and the SEO update as known level changes
+    ser = total[total.vertical == vertical]
+    model, s_fc = fit_forecast(ser, future, vertical, "sessions", mo=(vertical == "Sportsbook"), seo=True)
+    n_fc = two_stage(s_fc, ser[~ser.date.isin(bot_days)])
+    for metric, fc in [("sessions", s_fc), ("ndcs_reported", n_fc)]:
+        full_weeks = ser.date.between("2024-09-02", "2026-08-30")    # Monday to Sunday, so weekly totals are complete
+        rows.append(ser.loc[full_weeks, ["date", metric]].rename(columns={metric: "actual"}).assign(vertical=vertical, metric=metric, phase="Actual"))
+        rows.append(fc.assign(vertical=vertical, metric=metric, phase="Forecast 2026-27"))
+    if vertical == "Sportsbook":
+        print("Sportsbook sessions model, effects as % uplift vs a non-NFL Monday in summer:")
+        print(((np.exp(model.params.drop("const")) - 1) * 100).round(1).to_string())
+backtest = pd.DataFrame(backtest)
+print(backtest.round(3).to_string(index=False))
+
+fc_all = pd.concat(rows, ignore_index=True)
+last = fc_all[(fc_all.phase == "Actual") & fc_all.date.between("2025-09-01", "2026-02-28")]
+nxt = fc_all[(fc_all.phase == "Forecast 2026-27") & (fc_all.date >= "2026-09-01")]
+season = (nxt.groupby(["vertical", "metric"]).forecast.sum().rename("forecast_2026_27").to_frame()
+          .join(last.groupby(["vertical", "metric"]).actual.sum().rename("actual_2025_26")))
+season["growth"] = season.forecast_2026_27 / season.actual_2025_26 - 1
+print(season.round(3))
+label = {"sessions": "Sessions", "ndcs_reported": "NDCs"}       # display names for the report
+fc_all.assign(metric=fc_all.metric.map(label)).to_csv(OUT / "page5_forecast.csv", index=False)
+backtest.assign(metric=backtest.metric.map(label)).to_csv(OUT / "page5_backtest.csv", index=False)
+season.reset_index().assign(metric=lambda d: d.metric.map(label)).to_csv(OUT / "page5_season_totals.csv", index=False)
+
+# %% [markdown]
+# **Reading.** The back-test forecasts a whole NFL season from the previous one. Sessions follow the
+# sports calendar closely. For NDCs, modelling the count directly over-reacts to noise on small series
+# (casino: ~13 NDCs a day), so NDCs are forecast as sessions x the conversion rate of the last 12 months,
+# which the back-test supports. For 2026-27, the search update (-25% SEO traffic) cancels most of a
+# year's growth: the plan should replace that traffic (paid, email) or recover rankings.
+# Simulated data follow the model's structure closely, so real errors would be larger: the value here
+# is the method (calendar features, an honest back-test, anomaly-free training, explicit level changes).

@@ -1,0 +1,235 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "data",
+  "position": {
+    "x": 972,
+    "y": 438,
+    "z": 9000,
+    "height": 430,
+    "width": 916,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Data & methods",
+                    "textStyle": {
+                      "fontSize": "22pt",
+                      "color": "#0B0B0B",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "PUBLIC   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Gambling.com Group, Better Collective and Catena Media filings, each figure sourced.",
+                    "textStyle": {
+                      "fontSize": "16pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "PUBLIC DATASET   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "landing-page A/B test, 290,584 users.",
+                    "textStyle": {
+                      "fontSize": "16pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "SIMULATED   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "two NFL seasons of sessions, click-outs, NDCs, player NGR and paid spend for a US affiliate (9 states, fictional operators).",
+                    "textStyle": {
+                      "fontSize": "16pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "SQL   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "censoring-safe cohort curves, EPC by channel and page, daily KPIs (DuckDB).",
+                    "textStyle": {
+                      "fontSize": "16pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Python   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "z-test, bootstrap, power and peeking simulation; calendar GLM forecast with back-test; robust anomaly rules.",
+                    "textStyle": {
+                      "fontSize": "16pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Power BI   ",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#52514E",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "star schema, DAX measures, one question per page.",
+                    "textStyle": {
+                      "fontSize": "16pt",
+                      "color": "#0B0B0B"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

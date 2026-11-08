@@ -1,0 +1,44 @@
+table 'Public KPIs'
+	lineageTag: 9fde75cb-d280-52af-bbf4-189ffa7a4638
+
+	column year
+		dataType: string
+		lineageTag: 7d7eb490-1d0d-5ce8-a27b-9197dc5cd366
+		summarizeBy: none
+		sourceColumn: year
+
+	column kpi
+		dataType: string
+		lineageTag: 3187e2ae-1451-5d93-9243-a1a58f1a018b
+		summarizeBy: none
+		sourceColumn: kpi
+
+	column value
+		dataType: double
+		formatString: #,0.000
+		lineageTag: 1a44ae2d-d11c-5ab4-846f-7ca8ef1aed8b
+		summarizeBy: none
+		sourceColumn: value
+
+	column company
+		dataType: string
+		lineageTag: d5aab730-d067-5296-b667-0124159829af
+		summarizeBy: none
+		sourceColumn: company
+
+	column region
+		dataType: string
+		lineageTag: fc7aef40-c490-580e-abd8-d8665a3792cd
+		summarizeBy: none
+		sourceColumn: region
+
+	partition 'Public KPIs' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\page1_public_kpis.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"year", type text}, {"kpi", type text}, {"value", type number}, {"company", type text}, {"region", type text}}, "en-US")
+				in
+					Typed

@@ -1,0 +1,22 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.duckdb
+
+# Raw inputs: large PDFs and a dataset without a stated licence (see SOURCES.md)
+data/raw/*
+!data/raw/.gitkeep
+data/output/04_ab_test_clean.csv
+
+# Power BI local files
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/.pbi/editorSettings.json
+**/TMDLScripts/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

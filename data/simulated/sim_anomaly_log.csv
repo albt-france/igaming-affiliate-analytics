@@ -1,0 +1,4 @@
+anomaly_id,start,end,type,scope,description
+1,2025-10-20,2025-10-22,Bot clicks,Paid search / IL / Sportsbook / Comparison ranking,"~2,500 extra bot sessions a day, 70% click out, no registrations"
+2,2026-01-12,2026-01-15,Broken tracking,Operator D,Postback failure: tracked NDCs = 0 while the operator still reports them
+3,2026-03-15,2026-08-31,Level shift,SEO,Search algorithm update: SEO sessions -25% from 15 March 2026

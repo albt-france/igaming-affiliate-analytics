@@ -1,0 +1,11 @@
+sort_order,statistic,value
+0,Users (control / new page),"145,274 / 145,310"
+1,Conversion (control / new page),12.04% / 11.88%
+2,Difference (new - control),-0.16 pts (-1.3%)
+3,95% confidence interval,-0.39 to +0.08 pts
+4,z / p-value (two-sided),-1.31 / 0.190
+5,Bootstrap: share of resamples where new page wins,9.4%
+6,Smallest detectable effect (80% power),+/-0.34 pts
+7,Users per group to detect +0.5 pts,"67,673"
+8,"False positives, one look at the end (A/A simulation)",5.0%
+9,"False positives, peeking every day (A/A simulation)",25.9%

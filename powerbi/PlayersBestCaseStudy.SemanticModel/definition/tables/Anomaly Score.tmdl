@@ -1,0 +1,63 @@
+table 'Anomaly Score'
+	lineageTag: f3bf0431-d92f-5da0-9867-95ab42bec996
+
+	column anomaly
+		dataType: string
+		lineageTag: 2145fb8b-174d-5152-8036-100bf1cdcd0d
+		summarizeBy: none
+		sourceColumn: anomaly
+
+	column start
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 658e08fd-2939-5296-865c-0e23e4dca43f
+		summarizeBy: none
+		sourceColumn: start
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column detected
+		dataType: boolean
+		lineageTag: b8c38461-9e55-5763-a5b0-038b7f0e7ebb
+		summarizeBy: none
+		sourceColumn: detected
+
+	column first_flag
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 84f3707e-5dc8-584f-8c0e-197614191a80
+		summarizeBy: none
+		sourceColumn: first_flag
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column lag_days
+		dataType: double
+		formatString: 0
+		lineageTag: c4de70da-1897-5f9f-8828-516e6118d11d
+		summarizeBy: none
+		sourceColumn: lag_days
+
+	column flagged_segments
+		dataType: string
+		lineageTag: 5f045f2a-4a71-5bd8-95aa-1b6186e38458
+		summarizeBy: none
+		sourceColumn: flagged_segments
+
+	column false_positive_days
+		dataType: int64
+		formatString: 0
+		lineageTag: c5a1fcfb-a686-5bc4-a03a-28371af47253
+		summarizeBy: none
+		sourceColumn: false_positive_days
+
+	partition 'Anomaly Score' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\page5_anomaly_score.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"anomaly", type text}, {"start", type date}, {"detected", type logical}, {"first_flag", type date}, {"lag_days", type number}, {"flagged_segments", type text}, {"false_positive_days", Int64.Type}}, "en-US")
+				in
+					Typed

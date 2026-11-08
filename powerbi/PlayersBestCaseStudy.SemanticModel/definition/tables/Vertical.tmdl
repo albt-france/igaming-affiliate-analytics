@@ -1,0 +1,12 @@
+table Vertical
+	lineageTag: ac548767-1126-5a40-bc6a-b4b852fb8349
+
+	column vertical
+		dataType: string
+		lineageTag: 9f9bd4e0-ceef-59a8-a58f-1c40f5c0577f
+		summarizeBy: none
+		sourceColumn: vertical
+
+	partition Vertical = m
+		mode: import
+		source = #table(type table [vertical = text], {{"Sportsbook"}, {"Casino"}})

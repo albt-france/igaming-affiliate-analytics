@@ -1,0 +1,96 @@
+relationship rel_01
+	fromColumn: Traffic.date
+	toColumn: Date.Date
+
+relationship rel_02
+	fromColumn: 'Operator Daily'.date
+	toColumn: Date.Date
+
+relationship rel_03
+	fromColumn: NDCs.ftd_date
+	toColumn: Date.Date
+
+relationship rel_04
+	fromColumn: 'Marketing Cost'.date
+	toColumn: Date.Date
+
+relationship rel_05
+	fromColumn: Forecast.date
+	toColumn: Date.Date
+
+relationship rel_06
+	fromColumn: Traffic.channel
+	toColumn: Channel.channel
+
+relationship rel_07
+	fromColumn: 'Operator Daily'.channel
+	toColumn: Channel.channel
+
+relationship rel_08
+	fromColumn: NDCs.channel
+	toColumn: Channel.channel
+
+relationship rel_09
+	fromColumn: 'Marketing Cost'.channel
+	toColumn: Channel.channel
+
+relationship rel_10
+	fromColumn: Traffic.state
+	toColumn: State.state
+
+relationship rel_11
+	fromColumn: 'Operator Daily'.state
+	toColumn: State.state
+
+relationship rel_12
+	fromColumn: NDCs.state
+	toColumn: State.state
+
+relationship rel_13
+	fromColumn: 'Marketing Cost'.state
+	toColumn: State.state
+
+relationship rel_14
+	fromColumn: Traffic.vertical
+	toColumn: Vertical.vertical
+
+relationship rel_15
+	fromColumn: 'Operator Daily'.vertical
+	toColumn: Vertical.vertical
+
+relationship rel_16
+	fromColumn: NDCs.vertical
+	toColumn: Vertical.vertical
+
+relationship rel_17
+	fromColumn: 'Marketing Cost'.vertical
+	toColumn: Vertical.vertical
+
+relationship rel_18
+	fromColumn: Forecast.vertical
+	toColumn: Vertical.vertical
+
+relationship rel_19
+	fromColumn: Traffic.page_type
+	toColumn: 'Page Type'.page_type
+
+relationship rel_20
+	fromColumn: NDCs.page_type
+	toColumn: 'Page Type'.page_type
+
+relationship rel_21
+	fromColumn: 'Operator Daily'.operator
+	toColumn: Operator.operator
+
+relationship rel_22
+	fromColumn: NDCs.operator
+	toColumn: Operator.operator
+
+relationship rel_23
+	fromColumn: 'Deal Curves'.operator
+	toColumn: Operator.operator
+
+relationship rel_24
+	fromColumn: 'Deal Summary'.operator
+	toColumn: Operator.operator
+

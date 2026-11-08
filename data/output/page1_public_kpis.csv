@@ -1,0 +1,28 @@
+year,kpi,value,company,region
+FY2023,revenue_usd_m,108.652,Gambling.com Group,
+FY2024,revenue_usd_m,127.182,Gambling.com Group,
+FY2025,revenue_usd_m,165.447,Gambling.com Group,
+FY2023,north_america_share,0.5591705628980599,Gambling.com Group,
+FY2024,north_america_share,0.43638250695853187,Gambling.com Group,
+FY2025,north_america_share,0.5272685512581068,Gambling.com Group,
+FY2023,cpa_share_of_perf_mkt,0.58,Gambling.com Group,
+FY2024,cpa_share_of_perf_mkt,0.43,Gambling.com Group,
+FY2025,cpa_share_of_perf_mkt,0.37,Gambling.com Group,
+FY2023,recurring_share_of_perf_mkt,0.42,Gambling.com Group,
+FY2024,recurring_share_of_perf_mkt,0.57,Gambling.com Group,
+FY2025,recurring_share_of_perf_mkt,0.61,Gambling.com Group,
+FY2023,perf_rev_per_customer_usd,,Gambling.com Group,
+FY2024,perf_rev_per_customer_usd,211.01878914405012,Gambling.com Group,
+FY2025,perf_rev_per_customer_usd,228.12114537444933,Gambling.com Group,
+FY2024,revshare_share,0.6044961175744589,Better Collective,Europe & RoW
+FY2024,revshare_share,0.192007452258966,Better Collective,North America
+FY2025,revshare_share,0.5550582467263163,Better Collective,Europe & RoW
+FY2025,revshare_share,0.23953400977076286,Better Collective,North America
+FY2024,cpa_eur_m,53.858,Better Collective,Europe & RoW
+FY2024,cpa_eur_m,38.465,Better Collective,North America
+FY2025,cpa_eur_m,59.463,Better Collective,Europe & RoW
+FY2025,cpa_eur_m,20.577,Better Collective,North America
+FY2024,revenue_per_ndc_eur,211.79418472063855,Better Collective,
+FY2025,revenue_per_ndc_eur,280.5575,Better Collective,
+FY2024,revenue_per_ndc_eur,385.3923853923854,Catena Media,
+FY2025,revenue_per_ndc_eur,437.51760398084684,Catena Media,

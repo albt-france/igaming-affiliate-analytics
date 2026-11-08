@@ -1,0 +1,132 @@
+table 'AB Summary'
+	lineageTag: 3adb58fd-82c6-5c9d-9cd0-0b465f36e0fc
+
+	column users_control
+		dataType: int64
+		formatString: #,0
+		lineageTag: 4e2c8985-9b32-5466-832b-2b9a6f5ece6b
+		summarizeBy: none
+		sourceColumn: users_control
+
+	column users_treatment
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2888fc11-f89f-581b-94e6-a4e71bd20c80
+		summarizeBy: none
+		sourceColumn: users_treatment
+
+	column conv_control
+		dataType: double
+		formatString: 0.00%
+		lineageTag: a6a4155b-caef-5404-a0cd-f98a3d310914
+		summarizeBy: none
+		sourceColumn: conv_control
+
+	column conv_treatment
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 6644921c-7b59-512f-bb2c-546fcd3ff040
+		summarizeBy: none
+		sourceColumn: conv_treatment
+
+	column diff_pts
+		dataType: double
+		formatString: +0.00;-0.00
+		lineageTag: 47528339-acd3-52e0-9653-c211ab0b3f6b
+		summarizeBy: none
+		sourceColumn: diff_pts
+
+	column rel_lift
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 9a7240f6-d6ba-5f7f-848b-c0f29085d922
+		summarizeBy: none
+		sourceColumn: rel_lift
+
+	column z
+		dataType: double
+		formatString: 0.00
+		lineageTag: 80e682e5-c233-556f-bfe7-f62f7a161776
+		summarizeBy: none
+		sourceColumn: z
+
+	column p_two_sided
+		dataType: double
+		formatString: 0.000
+		lineageTag: a17f69a3-f77a-5c6f-baab-bc811cae1933
+		summarizeBy: none
+		sourceColumn: p_two_sided
+
+	column p_one_sided_new_better
+		dataType: double
+		formatString: 0.000
+		lineageTag: 8d2e0578-5f84-5477-949b-42ccf9adb62f
+		summarizeBy: none
+		sourceColumn: p_one_sided_new_better
+
+	column ci95_lo_pts
+		dataType: double
+		formatString: 0.00
+		lineageTag: e163fa64-b1ed-5018-9036-f593e2903b39
+		summarizeBy: none
+		sourceColumn: ci95_lo_pts
+
+	column ci95_hi_pts
+		dataType: double
+		formatString: 0.00
+		lineageTag: 6532b3a7-d463-5c1c-94d9-f401cb02a444
+		summarizeBy: none
+		sourceColumn: ci95_hi_pts
+
+	column boot_share_new_better
+		dataType: double
+		formatString: 0.0%
+		lineageTag: e75a2d65-536c-553f-a542-b36a62b7d959
+		summarizeBy: none
+		sourceColumn: boot_share_new_better
+
+	column mde_pts_at_80pct_power
+		dataType: double
+		formatString: 0.00
+		lineageTag: 4a3bb16a-d154-5707-a19f-aecf7fa45c63
+		summarizeBy: none
+		sourceColumn: mde_pts_at_80pct_power
+
+	column users_per_group_for_0_5pt_lift
+		dataType: int64
+		formatString: #,0
+		lineageTag: 001feb4a-5ae0-5a37-80e3-692c33a460cc
+		summarizeBy: none
+		sourceColumn: users_per_group_for_0_5pt_lift
+
+	column days
+		dataType: int64
+		formatString: 0
+		lineageTag: deae2a61-62ca-5573-a666-61de363b155e
+		summarizeBy: none
+		sourceColumn: days
+
+	column false_positive_single_look
+		dataType: double
+		formatString: 0.0%
+		lineageTag: d99a6b9f-11be-5d52-98f2-ed30ff6e8dca
+		summarizeBy: none
+		sourceColumn: false_positive_single_look
+
+	column false_positive_daily_peeking
+		dataType: double
+		formatString: 0.0%
+		lineageTag: d4f068e5-f472-55d9-882b-0c14eae5a849
+		summarizeBy: none
+		sourceColumn: false_positive_daily_peeking
+
+	partition 'AB Summary' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\page4_ab_summary.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"users_control", Int64.Type}, {"users_treatment", Int64.Type}, {"conv_control", type number}, {"conv_treatment", type number}, {"diff_pts", type number}, {"rel_lift", type number}, {"z", type number}, {"p_two_sided", type number}, {"p_one_sided_new_better", type number}, {"ci95_lo_pts", type number}, {"ci95_hi_pts", type number}, {"boot_share_new_better", type number}, {"mde_pts_at_80pct_power", type number}, {"users_per_group_for_0_5pt_lift", Int64.Type}, {"days", Int64.Type}, {"false_positive_single_look", type number}, {"false_positive_daily_peeking", type number}}, "en-US")
+				in
+					Typed

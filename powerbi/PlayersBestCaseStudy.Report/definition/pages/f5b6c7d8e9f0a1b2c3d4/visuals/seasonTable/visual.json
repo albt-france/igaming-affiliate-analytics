@@ -1,0 +1,186 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "seasonTable",
+  "position": {
+    "x": 972,
+    "y": 824,
+    "z": 9000,
+    "height": 204,
+    "width": 916,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Season Totals"
+                    }
+                  },
+                  "Property": "vertical"
+                }
+              },
+              "queryRef": "Season Totals.vertical",
+              "nativeQueryRef": "vertical",
+              "displayName": "Vertical"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Season Totals"
+                    }
+                  },
+                  "Property": "metric"
+                }
+              },
+              "queryRef": "Season Totals.metric",
+              "nativeQueryRef": "metric",
+              "displayName": "Metric"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Season Totals"
+                    }
+                  },
+                  "Property": "actual_2025_26"
+                }
+              },
+              "queryRef": "Season Totals.actual_2025_26",
+              "nativeQueryRef": "actual_2025_26",
+              "displayName": "2025-26 actual"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Season Totals"
+                    }
+                  },
+                  "Property": "forecast_2026_27"
+                }
+              },
+              "queryRef": "Season Totals.forecast_2026_27",
+              "nativeQueryRef": "forecast_2026_27",
+              "displayName": "2026-27 forecast"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Season Totals"
+                    }
+                  },
+                  "Property": "growth"
+                }
+              },
+              "queryRef": "Season Totals.growth",
+              "nativeQueryRef": "growth",
+              "displayName": "Growth"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#52514E'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Season totals, September to February'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

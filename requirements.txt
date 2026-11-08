@@ -1,0 +1,9 @@
+pandas
+numpy
+scipy
+statsmodels
+duckdb
+jupyter
+nbformat
+nbconvert
+pypdf

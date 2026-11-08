@@ -1,0 +1,68 @@
+table Forecast
+	lineageTag: d1b8e5d0-c658-570f-adc2-15d937c299aa
+
+	column date
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 5c219551-b251-57fa-8229-532724aacf92
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column forecast
+		dataType: double
+		formatString: #,0
+		lineageTag: 201a2320-d07b-5943-be55-de79fa1431ee
+		summarizeBy: none
+		sourceColumn: forecast
+
+	column lo80
+		dataType: double
+		formatString: #,0
+		lineageTag: 720a8dae-cfc4-5139-97d5-3f9ff833930b
+		summarizeBy: none
+		sourceColumn: lo80
+
+	column hi80
+		dataType: double
+		formatString: #,0
+		lineageTag: 706d770d-dc1f-5979-b8ce-2619e03f59b3
+		summarizeBy: none
+		sourceColumn: hi80
+
+	column actual
+		dataType: double
+		formatString: #,0
+		lineageTag: d2297438-25fe-56c2-a194-1da9740ee665
+		summarizeBy: none
+		sourceColumn: actual
+
+	column vertical
+		dataType: string
+		lineageTag: b2b11766-4a51-538a-af6b-c4504e68c7de
+		summarizeBy: none
+		sourceColumn: vertical
+
+	column metric
+		dataType: string
+		lineageTag: f5532391-35b3-5906-a51c-0efa4326a80c
+		summarizeBy: none
+		sourceColumn: metric
+
+	column phase
+		dataType: string
+		lineageTag: 825794a9-e94b-5be4-b4cd-734e7edf5d45
+		summarizeBy: none
+		sourceColumn: phase
+
+	partition Forecast = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "output\page5_forecast.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Blanks = Table.TransformColumns(Promoted, {}, each if _ = "" then null else _),
+					Typed = Table.TransformColumnTypes(Blanks, {{"date", type date}, {"forecast", type number}, {"lo80", type number}, {"hi80", type number}, {"actual", type number}, {"vertical", type text}, {"metric", type text}, {"phase", type text}}, "en-US")
+				in
+					Typed
